@@ -10,7 +10,7 @@
                 <li class="menu-title" data-key="t-menu"><?= lang('Files.Menu') ?></li>
 
                 <li>
-                    <a href="../admin/dashboard">
+                    <a href="<?= base_url('admin/dashboard') ?>">
                         <i data-feather="home"></i>
                         <span data-key="t-dashboard"><?= lang('Files.Dashboard') ?></span>
                     </a>
@@ -21,9 +21,9 @@
                         <span data-key="t-maps">Products</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="../admin/products" data-key="t-g-maps">Products</a></li>
-                        <li><a href="../admin/product-types" data-key="t-v-maps">Product Types</a></li>
-                        <li><a href="../admin/product-materials" data-key="t-v-maps">Product Material</a></li>
+                        <li><a href="<?= base_url('admin/products') ?>" data-key="t-g-maps">Products</a></li>
+                        <li><a href="<?= base_url('admin/product-types') ?>" data-key="t-v-maps">Product Types</a></li>
+                        <li><a href="<?= base_url('admin/product-materials') ?>" data-key="t-v-maps">Product Material</a></li>
                     </ul>
                 </li>
                 <li>
@@ -32,46 +32,51 @@
                         <span data-key="t-maps">Users</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="../admin/users" data-key="t-g-maps">Users</a></li>
-                        <li><a href="../admin/user-types" data-key="t-v-maps">User Types</a></li>
+                        <li><a href="<?= base_url('admin/users') ?>" data-key="t-g-maps">Users</a></li>
+                        <li><a href="<?= base_url('admin/user-types') ?>" data-key="t-v-maps">User Types</a></li>
                     </ul>
                 </li>
                 <li>
                     <a href="javascript: void(0);" class="has-arrow">
-                    <i data-feather="share-2"></i>
+                        <i data-feather="share-2"></i>
                         <span data-key="t-dashboard">Works</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="../admin/works-lists" data-key="t-g-maps">Works</a></li>
-                        <li><a href="../admin/work-categories" data-key="t-v-maps">Work Category</a></li>
+                        <li><a href="<?= base_url('admin/works-lists') ?>" data-key="t-g-maps">Works</a></li>
+                        <li><a href="<?= base_url('admin/work-categories') ?>" data-key="t-v-maps">Work Category</a></li>
                     </ul>
                 </li>
                 <li>
-                    <a href="../admin/service-lists">
+                    <a href="javascript: void(0);" class="has-arrow">
                         <i data-feather="share-2"></i>
                         <span data-key="t-dashboard">Services</span>
                     </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="<?= base_url('admin/service-lists') ?>"> <span data-key="t-dashboard">Services</span></a></li>
+                        <li><a href="<?= base_url('admin/service-feature-lists') ?>"> <span data-key="t-dashboard">Service Features</span></a></li>
+                    </ul>
                 </li>
+
                 <li>
-                    <a href="../admin/abouts">
+                    <a href="<?= base_url('admin/abouts') ?>">
                         <i data-feather="info"></i>
                         <span data-key="t-dashboard">About Us</span>
                     </a>
                 </li>
                 <li>
-                    <a href="../admin/contacts">
+                    <a href="<?= base_url('admin/contacts') ?>">
                         <i data-feather="phone"></i>
                         <span data-key="t-dashboard">Contact Us</span>
                     </a>
                 </li>
                 <li>
-                    <a href="../admin/banners-lists">
+                    <a href="<?= base_url('admin/banners-lists') ?>">
                         <i data-feather="image"></i>
                         <span data-key="t-dashboard">Banner</span>
                     </a>
                 </li>
                 <li>
-                    <a href="../admin/features-lists">
+                    <a href="<?= base_url('admin/features-lists') ?>">
                         <i data-feather="cpu"></i>
                         <span data-key="t-dashboard">Features</span>
                     </a>

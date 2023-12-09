@@ -14,6 +14,7 @@ use App\Models\Admin\AdminContact_model;
 use App\Models\Admin\AdminProductTypes_model;
 use App\Models\Admin\AdminProductTypeDetails_model;
 use App\Models\User\UserContactDetails_model;
+use App\Models\Admin\AdminServiceFeature_model;
 
 class Home extends AdminBaseResourceController
 {
@@ -28,7 +29,7 @@ class Home extends AdminBaseResourceController
 		$WorksModel  = new AdminWorks_model();
 		$ContactModel  = new AdminContact_model();
 
-		$data['navProducts'] = $ProductModel->select('productID, productTitle, productImageUrl')->orderBy('showOrder', 'ASC')->limit(9)->get()->getResult();
+		$data['navProducts'] = $ProductModel->select('productID, productTitle, productImageUrl, menuProductImageUrl')->orderBy('showOrder', 'ASC')->limit(9)->get()->getResult();
 		$data['navService'] = $ServicesModel->select('serviceID, serviceTitle')->orderBy('showOrder', 'ASC')->get()->getResult();
 		$data['bannerDetails'] = $BannerModel->select('bannerID, bannerHeading, bannerTitle, bannerUrl, bannerFileUrl')->orderBy('showOrder', 'ASC')->get()->getResultArray();
 		$data['contactDetails'] = $ContactModel->where('contactType', 'main')->select('*')->first();
@@ -66,7 +67,7 @@ class Home extends AdminBaseResourceController
 		$ServicesModel = new AdminServices_model();
 		$ContactModel  = new AdminContact_model();
 
-		$data['navProducts'] = $ProductModel->select('productID, productTitle, productImageUrl')->orderBy('showOrder', 'ASC')->limit(9)->get()->getResult();
+		$data['navProducts'] = $ProductModel->select('productID, productTitle, productImageUrl, menuProductImageUrl')->orderBy('showOrder', 'ASC')->limit(9)->get()->getResult();
 		$data['navService'] = $ServicesModel->select('serviceID, serviceTitle')->orderBy('showOrder', 'ASC')->get()->getResult();
 		$data['contactDetails'] = $ContactModel->where('contactType', 'main')->select('*')->first();
 		$data['aboutPageDetails'] = $AboutModel->where('aboutType', 'aboutpage')->select('')->first(); // echo "About";
@@ -79,12 +80,14 @@ class Home extends AdminBaseResourceController
 		$ContactModel  = new AdminContact_model();
 		$ProductModel = new AdminProduct_model();
 		$ServicesModel = new AdminServices_model();
+		$ServiceFeatureModel = new AdminServiceFeature_model();
 
-		$data['navProducts'] = $ProductModel->select('productID, productTitle, productImageUrl')->orderBy('showOrder', 'ASC')->limit(9)->get()->getResult();
+		$data['navProducts'] = $ProductModel->select('productID, productTitle, productImageUrl, menuProductImageUrl')->orderBy('showOrder', 'ASC')->limit(9)->get()->getResult();
 		$data['navService'] = $ServicesModel->select('serviceID, serviceTitle')->orderBy('showOrder', 'ASC')->get()->getResult();
 		$data['contactDetails'] = $ContactModel->where('contactType', 'main')->select('*')->first();
 
 		$data['serviceDetails'] = $ServicesModel->where('serviceID', $serviceID)->select('*')->orderBy('showOrder', 'ASC')->first();
+		$data['serviceFeatures'] = $ServiceFeatureModel->select('featureID, featureTitle, featureDescription, featureIconUrl')->orderBy('showOrder', 'ASC')->limit(4)->get()->getResult();
 
 		return view('frontend/services', $data);
 	}
@@ -96,7 +99,7 @@ class Home extends AdminBaseResourceController
 		$ServicesModel = new AdminServices_model();
 		$WorksModel  = new AdminWorks_model();
 
-		$data['navProducts'] = $ProductModel->select('productID, productTitle, productImageUrl')->orderBy('showOrder', 'ASC')->limit(9)->get()->getResult();
+		$data['navProducts'] = $ProductModel->select('productID, productTitle, productImageUrl, menuProductImageUrl')->orderBy('showOrder', 'ASC')->limit(9)->get()->getResult();
 		$data['navService'] = $ServicesModel->select('serviceID, serviceTitle')->orderBy('showOrder', 'ASC')->get()->getResult();
 		$data['contactDetails'] = $ContactModel->where('contactType', 'main')->select('*')->first();
 
@@ -115,7 +118,7 @@ class Home extends AdminBaseResourceController
 		$ServicesModel = new AdminServices_model();
 		$WorksModel  = new AdminWorks_model();
 
-		$data['navProducts'] = $ProductModel->select('productID, productTitle, productImageUrl')->orderBy('showOrder', 'ASC')->limit(9)->get()->getResult();
+		$data['navProducts'] = $ProductModel->select('productID, productTitle, productImageUrl, menuProductImageUrl')->orderBy('showOrder', 'ASC')->limit(9)->get()->getResult();
 		$data['navService'] = $ServicesModel->select('serviceID, serviceTitle')->orderBy('showOrder', 'ASC')->get()->getResult();
 		$data['contactDetails'] = $ContactModel->where('contactType', 'main')->select('*')->first();
 
@@ -151,7 +154,7 @@ class Home extends AdminBaseResourceController
 		$ProductTypesModel = new AdminProductTypes_model();
 		$ProductTypeDetailsModel = new AdminProductTypeDetails_model();
 
-		$data['navProducts'] = $ProductModel->select('productID, productTitle, productImageUrl')->orderBy('showOrder', 'ASC')->limit(9)->get()->getResult();
+		$data['navProducts'] = $ProductModel->select('productID, productTitle, productImageUrl, menuProductImageUrl')->orderBy('showOrder', 'ASC')->limit(9)->get()->getResult();
 		$data['navService'] = $ServicesModel->select('serviceID, serviceTitle')->orderBy('showOrder', 'ASC')->get()->getResult();
 		$data['contactDetails'] = $ContactModel->where('contactType', 'main')->select('*')->first();
 
@@ -210,7 +213,7 @@ class Home extends AdminBaseResourceController
 		$ServicesModel = new AdminServices_model();
 		$UserContactDetailsModel = new UserContactDetails_model();
 
-		$data['navProducts'] = $ProductModel->select('productID, productTitle, productImageUrl')->orderBy('showOrder', 'ASC')->limit(9)->get()->getResult();
+		$data['navProducts'] = $ProductModel->select('productID, productTitle, productImageUrl, menuProductImageUrl')->orderBy('showOrder', 'ASC')->limit(9)->get()->getResult();
 		$data['navService'] = $ServicesModel->select('serviceID, serviceTitle')->orderBy('showOrder', 'ASC')->get()->getResult();
 		$data['contactDetails'] = $ContactModel->where('contactType', 'main')->select('*')->first();
 

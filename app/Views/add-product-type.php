@@ -6,24 +6,10 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    <link href="../public/assets/libs/choices.js/public/assets/styles/choices.min.css" rel="stylesheet" type="text/css" />
-    <link href="../../public/assets/libs/choices.js/public/assets/styles/choices.min.css" rel="stylesheet" type="text/css" />
-    <!-- datepicker css -->
-    <!-- Bootstrap Css -->
-    <link href="../public/assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
-    <!-- Icons Css -->
-    <link href="../public/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
-    <!-- App Css-->
-    <link href="../public/assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
-
-    <link rel="stylesheet" href="../../public/assets/css/preloader.min.css" type="text/css" />
-
-    <!-- Bootstrap Css -->
-    <link href="../../public/assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
-    <!-- Icons Css -->
-    <link href="../../public/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
-    <!-- App Css-->
-    <link href="../../public/assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="<?= base_url('public/assets/css/preloader.min.css') ?>" type="text/css" />
+    <link href="<?= base_url('public/assets/css/bootstrap.min.css') ?>" id="bootstrap-style" rel="stylesheet" type="text/css" />
+    <link href="<?= base_url('public/assets/css/icons.min.css') ?>" rel="stylesheet" type="text/css" />
+    <link href="<?= base_url('public/assets/css/app.min.css') ?>" id="app-style" rel="stylesheet" type="text/css" />
 
 </head>
 
@@ -198,23 +184,11 @@
     });
 </script>
 </div>
-<!-- END layout-wrapper -->
 
 
 <?= $this->include('partials/right-sidebar') ?>
 
 <?= $this->include('partials/vendor-scripts') ?>
-
-
-<!-- App js -->
-<script src="../public/assets/js/app.js"></script>
-
-<!--  -->
-
-<!-- dashboard init -->
-<script src="../public/assets/libs/@ckeditor/ckeditor5-build-classic/build/ckeditor.js"></script>
-
-<script src="../../public/assets/libs/@ckeditor/ckeditor5-build-classic/build/ckeditor.js"></script>
 
 <!-- init js -->
 <script type="text/javascript">
@@ -229,154 +203,12 @@
         });
     });
 </script>
-<!-- <script>
-    $('.repeater').repeater({
-        initEmpty: true,
-        show: function(e) {
-            $(this).slideDown();
-            var repeaterItems = $("div[data-repeater-item]");
-            var repeatCount = repeaterItems.length;
-            var cnt = parseInt(repeatCount) - 1;
 
-            $('[name="additional[' + cnt + '][content]"]').attr("id", "addDesc_" + count);
+<script src="<?= base_url('public/assets/js/app.js') ?>"></script>
 
-
-            tinymce.init({
-                selector: "#addDesc_" + count
-            });
-            count = parseInt(count) + 1;
-        },
-        hide: function(deleteElement) {
-            if (confirm('Are you sure you want to delete this element?')) {
-                $(this).slideUp(deleteElement);
-            }
-        },
-        isFirstItemUndeletable: false
-    })
-</script> -->
-<!-- <script type="text/javascript">
-    $(document).ready(function() {
-        var i = 1;
-
-        $('#add').click(function() {
-            i++;
-            $('#dynamic_field').append('<tr id="row' + i + '" class="dynamic-added"><td><input type="text" name="addmore[][name]" placeholder="Enter your Name" class="form-control name_list" required /></td><td><button type="button" name="remove" id="' + i + '" class="btn btn-danger btn_remove">X</button></td></tr>');
-        });
-
-        $(document).on('click', '.btn_remove', function() {
-            var button_id = $(this).attr("id");
-            $('#row' + button_id + '').remove();
-        });
-
-    });
-</script> -->
-<!-- <script>
-    $(document).ready(function() {
-        var $repeater = $('.repeater').repeater({
-            repeaters: [{
-                selector: '.inner-repeater',
-                repeaters: [{
-                    selector: '.deep-inner-repeater'
-                }]
-            }]
-        });
-
-        $(document).on('click', '.add-inner-repeater', function() {
-            var $item = $(this).closest('[data-repeater-item]');
-            var $list = $item.find('[data-repeater-list="inner-list"]');
-            var $newItem = $list.find('[data-repeater-item]').first().clone(true);
-
-            // Clear input values in the cloned item
-            $newItem.find('input[type="text"]').val('');
-
-            // Increment a counter for each input field to create unique names
-            var counter = $list.find('[data-repeater-item]').length;
-            $newItem.find('input[type="text"]').each(function(index) {
-                var currentName = $(this).attr('name');
-                $(this).attr('name', currentName.replace(/\[\d+\]/, '[' + counter + ']'));
-            });
-
-            $list.append($newItem);
-        });
-
-        $(document).on('input', '.typeDetailTitle', function() {
-            var $parentItem = $(this).closest('[data-repeater-item]');
-            var titleValue = $(this).val();
-            $parentItem.find('.typeDetailTitleHidden').val(titleValue);
-        });
-        // $(document).on('click', '.add-inner-repeater', function() {
-        //     var $item = $(this).closest('[data-repeater-item]');
-        //     var $list = $item.find('[data-repeater-list="inner-list"]');
-
-        //     var $newItem = $list.find('[data-repeater-item]').first().clone(true, true);
-
-        //     $newItem.find('input[type="text"]').val(''); // Clear input fields
-
-        //     $list.append($newItem);
-        // });
-
-        // $(document).on('click', '[data-repeater-create-inner]', function() {
-        //     var innerRepeater = $(this).closest('[data-repeater-item]').find('[data-repeater-list="inner-list"]');
-        //     var newInnerRepeaterRow = innerRepeater.find('[data-repeater-item]').first().clone();
-        //     innerRepeater.append(newInnerRepeaterRow);
-        // });
-
-        $(document).on('click', '[data-repeater-delete]', function() {
-            $(this).closest('[data-repeater-item]').remove();
-        });
-
-        // repeater.setList([{
-        //         'text-input': 'Clothing',
-        //         'inner-list': [{
-        //                 'inner-text-input': 'Shirts',
-        //                 'deep-inner-list': [{
-        //                         'inner-text-input': 'Red Shirts'
-        //                     },
-        //                     {
-        //                         'inner-text-input': 'Green Shirts'
-        //                     }
-        //                 ]
-        //             },
-        //             {
-        //                 'inner-text-input': 'Trousers',
-        //                 'deep-inner-list': [{
-        //                         'inner-text-input': 'Long Trousers'
-        //                     },
-        //                     {
-        //                         'inner-text-input': 'Short Trousers'
-        //                     }
-        //                 ]
-        //             }
-        //         ]
-        //     },
-        //     {
-        //         'text-input': 'Accessories',
-        //         'inner-list': [{
-        //             'inner-text-input': 'Hats',
-        //             'deep-inner-list': [{
-        //                     'inner-text-input': 'Cowboy Hats'
-        //                 },
-        //                 {
-        //                     'inner-text-input': 'Animal Fur Hats'
-        //                 }
-        //             ]
-        //         }]
-        //     },
-        // ]);
-
-    });
-</script> -->
-
-
-<script src="../public/assets/libs/choices.js/public/assets/scripts/choices.min.js"></script>
-<script src="../../public/assets/libs/choices.js/public/assets/scripts/choices.min.js"></script>
-
-<!-- init js -->
-<script src="../public/assets/js/pages/form-advanced.init.js"></script>
-<script src="../../public/assets/js/pages/form-advanced.init.js"></script>
-<script src="../../public/assets/js/pages/jquery.repeater.min.js"></script>
-<script src="../public/assets/js/pages/jquery.repeater.min.js"></script>
-<!--  -->
+<script src="<?= base_url('public/assets/libs/@ckeditor/ckeditor5-build-classic/build/ckeditor.js') ?>"></script>
+<script src="<?= base_url('public/assets/libs/choices.js/public/assets/scripts/choices.min.js') ?>"></script>
+<script src="<?= base_url('public/assets/js/pages/form-advanced.init.js') ?>"></script>
 </body>
 
 </html>

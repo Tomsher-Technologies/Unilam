@@ -86,8 +86,8 @@ $routes->group('admin', function ($routes) {
 	$routes->post('edit-product-material/(:num)', 'Admin\ProductMaterials::editproductmaterial/$1');
 	$routes->get('delete-product-material/(:num)', 'Admin\ProductMaterials::deleteproductmaterial/$1');
 	$routes->post('delete-product-material/(:num)', 'Admin\ProductMaterials::deleteproductmaterial/$1');
-	
-	
+
+
 	// work-categories
 	$routes->get('work-categories', 'Admin\WorkCategories::index');
 	$routes->get('create-work-category', 'Admin\WorkCategories::createworkcategory');
@@ -114,6 +114,15 @@ $routes->group('admin', function ($routes) {
 	$routes->post('edit-service/(:num)', 'Admin\Services::editservice/$1');
 	$routes->get('delete-service/(:num)', 'Admin\Services::deleteservice/$1');
 	$routes->post('delete-service/(:num)', 'Admin\Services::deleteservice/$1');
+
+	// service
+	$routes->get('service-feature-lists', 'Admin\ServiceFeatures::index');
+	$routes->get('create-service-feature', 'Admin\ServiceFeatures::createservicefeature');
+	$routes->post('create-service-feature', 'Admin\ServiceFeatures::createservicefeature');
+	$routes->get('edit-service-feature/(:num)', 'Admin\ServiceFeatures::editservicefeature/$1');
+	$routes->post('edit-service-feature/(:num)', 'Admin\ServiceFeatures::editservicefeature/$1');
+	$routes->get('delete-service-feature/(:num)', 'Admin\ServiceFeatures::deleteservicefeature/$1');
+	$routes->post('delete-service-feature/(:num)', 'Admin\ServiceFeatures::deleteservicefeature/$1');
 
 	// abouts
 	$routes->get('abouts', 'Admin\Abouts::index');

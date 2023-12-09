@@ -6,42 +6,31 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    <link href="../public/assets/libs/choices.js/public/assets/styles/choices.min.css" rel="stylesheet" type="text/css" />
-    <link href="../../public/assets/libs/choices.js/public/assets/styles/choices.min.css" rel="stylesheet" type="text/css" />
-    <!-- datepicker css -->
-    <!-- Bootstrap Css -->
-    <link href="../public/assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
-    <!-- Icons Css -->
-    <link href="../public/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
-    <!-- App Css-->
-    <link href="../public/assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
+    <link href="<?= base_url('public/assets/libs/choices.js/public/assets/styles/choices.min.css') ?>" rel="stylesheet" type="text/css" />
 
-    <link rel="stylesheet" href="../../public/assets/css/preloader.min.css" type="text/css" />
+    <link rel="stylesheet" href="<?= base_url('public/assets/css/preloader.min.css') ?>" type="text/css" />
 
-    <!-- Bootstrap Css -->
-    <link href="../../public/assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
-    <!-- Icons Css -->
-    <link href="../../public/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
-    <!-- App Css-->
-    <link href="../../public/assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
+    <link href="<?= base_url('public/assets/css/bootstrap.min.css') ?>" id="bootstrap-style" rel="stylesheet" type="text/css" />
+
+    <link href="<?= base_url('public/assets/css/icons.min.css') ?>" rel="stylesheet" type="text/css" />
+
+    <link href="<?= base_url('public/assets/css/app.min.css') ?>" id="app-style" rel="stylesheet" type="text/css" />
 
 </head>
 
 <?= $this->include('partials/body') ?>
 
-<!-- Begin page -->
+
 <div id="layout-wrapper">
     <?php
     if (isset($post['productID'])) {
-        echo $this->include('partials/menudoubleback');
+        echo  $this->include('partials/menudoubleback');
     } else {
-        echo $this->include('partials/menu');
+        echo     $this->include('partials/menu');
     }
     ?>
     <?= $this->include('partials/topbardoubleback') ?>
-    <!-- ============================================================== -->
-    <!-- Start right Content here -->
-    <!-- ============================================================== -->
+
     <div class="main-content">
 
         <div class="page-content">
@@ -89,10 +78,14 @@
                                             <div class="card-body">
                                                 <div id="ckeditor-classic"></div>
                                                 <input type="hidden" value="<?= isset($post['productDescription']) ? $post['productDescription'] : '' ?>" id="productDescription" name="productDescription">
+                                                <?php if (isset($validation) && isset($validation['productDescription'])) : ?>
+                                                    <small class="text-danger">
+                                                        <?= esc($validation['productDescription']) ?>
+                                                    </small>
+                                                <?php endif; ?>
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- end col -->
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
@@ -115,7 +108,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label font-size-13 text-muted">Product Types</label>
+                                            <label class="form-label font-size-13 text-muted">Product Material</label>
                                             <select class="form-control" name="materialID" placeholder="Select product material">
                                                 <option selected>Select product material</option>
                                                 <?php foreach ($productMaterials as $productMaterial_row) : ?>
@@ -154,7 +147,7 @@
                                                 <?php if (isset($post) && isset($post['productImageUrl'])) : ?>
                                                     <div class="row mb-3">
                                                         <div class="col-md-6">
-                                                            <img class="rounded me-2" id="previewProductImage" alt="200x200" width="200" src="http://localhost/unilam/<?= $post['productImageUrl'] ?>" data-holder-rendered="true">
+                                                            <img class="rounded me-2" id="previewProductImage" alt="200x200" width="200" src="<?= base_url($post['productImageUrl']) ?>" data-holder-rendered="true">
                                                         </div>
                                                     </div>
                                                 <?php endif; ?>
@@ -176,7 +169,7 @@
                                                 <?php if (isset($post) && isset($post['menuProductImageUrl'])) : ?>
                                                     <div class="row mb-3">
                                                         <div class="col-md-6">
-                                                            <img class="rounded me-2" id="previewmenuProductImage" alt="200x200" width="200" src="http://localhost/unilam/<?= $post['menuProductImageUrl'] ?>" data-holder-rendered="true">
+                                                            <img class="rounded me-2" id="previewmenuProductImage" alt="200x200" width="200" src="<?= base_url($post['menuProductImageUrl']) ?>" data-holder-rendered="true">
                                                         </div>
                                                     </div>
                                                 <?php endif; ?>
@@ -198,7 +191,7 @@
                                                 <?php if (isset($post) && isset($post['productBannerImageUrl'])) : ?>
                                                     <div class="row mb-3">
                                                         <div class="col-md-6">
-                                                            <img class="rounded me-2" id="bannerPreview" alt="200x200" width="200" src="http://localhost/unilam/<?= $post['productBannerImageUrl'] ?>" data-holder-rendered="true">
+                                                            <img class="rounded me-2" id="bannerPreview" alt="200x200" width="200" src="<?= base_url($post['productBannerImageUrl']) ?>" data-holder-rendered="true">
                                                         </div>
                                                     </div>
                                                 <?php endif; ?>
@@ -221,7 +214,7 @@
                                                     <div class="row">
                                                         <?php foreach ($gallaryImages as $gallaryImage_row) : ?>
                                                             <div class="col-md-3  mb-3">
-                                                                <img class="rounded me-2" alt="200x200" width="200" src="http://localhost/unilam/<?= $gallaryImage_row->gallaryImageUrl ?>" data-holder-rendered="true">
+                                                                <img class="rounded me-2" alt="200x200" width="200" src="<?= base_url($gallaryImage_row->gallaryImageUrl) ?>" data-holder-rendered="true">
                                                             </div>
                                                         <?php endforeach; ?>
                                                     </div>
@@ -264,16 +257,12 @@
 <?= $this->include('partials/vendor-scripts') ?>
 
 
-<!-- App js -->
-<script src="../public/assets/js/app.js"></script>
 
-<!--  -->
+<script src="<?= base_url('public/assets/js/app.js') ?>"></script>
 
-<!-- dashboard init -->
-<script src="../public/assets/libs/@ckeditor/ckeditor5-build-classic/build/ckeditor.js"></script>
-
-<script src="../../public/assets/libs/@ckeditor/ckeditor5-build-classic/build/ckeditor.js"></script>
-
+<script src="<?= base_url('public/assets/libs/@ckeditor/ckeditor5-build-classic/build/ckeditor.js') ?>"></script>
+<script src="<?= base_url('public/assets/libs/choices.js/public/assets/scripts/choices.min.js') ?>"></script>
+<script src="<?= base_url('public/assets/js/pages/form-advanced.init.js') ?>"></script>
 <!-- init js -->
 <script>
     $(document).ready(function() {
@@ -281,7 +270,7 @@
             .create(document.querySelector('#ckeditor-classic')).then(function(editor) {
                 editor.ui.view.editable.element.style.height = '200px';
 
-                var postDescription = '<?= $post['productDescription'] ?? ''; ?>';
+                var postDescription = $("#productDescription").val();
                 console.log('postDescription', postDescription)
                 if (postDescription) {
                     editor.setData(postDescription);
@@ -326,7 +315,7 @@
         }
     }
 
-    
+
     function previewmenuProductImage(event) {
         const previewmenuProductImage = document.getElementById('previewmenuProductImage');
         const file = event.target.files[0];
@@ -365,12 +354,7 @@
 </script>
 
 
-<script src="../public/assets/libs/choices.js/public/assets/scripts/choices.min.js"></script>
-<script src="../../public/assets/libs/choices.js/public/assets/scripts/choices.min.js"></script>
 
-<!-- init js -->
-<script src="../public/assets/js/pages/form-advanced.init.js"></script>
-<script src="../../public/assets/js/pages/form-advanced.init.js"></script>
 <!--  -->
 </body>
 

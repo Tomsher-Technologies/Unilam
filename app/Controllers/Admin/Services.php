@@ -102,6 +102,8 @@ class Services extends AdminBaseResourceController
                     'serviceHeadLine3' => $this->request->getVar('serviceHeadLine3'),
                     'serviceMainDescription3' => $this->request->getVar('serviceMainDescription3'),
                     'serviceHeadLineImageUrl3' => $this->handleUploadImage("serviceHeadLineImage3", 'serviceHeadLineImage3', '', $this->request->getVar('serviceHeadLineImageUrl3')),
+                    'featureBannerImageUrl' => $this->handleUploadImage("featureBannerImage", 'featureBannerImage', '', $this->request->getVar('featureBannerImageUrl')),
+                    'showOrder' => !empty($this->request->getVar('showOrder')) ??  $this->getNextShowOrder($this->model),
                     'updatedOn' => date('Y-m-d H:i:s'),
                 ];
                 $this->model->update($serviceID, $updateData);
@@ -121,6 +123,8 @@ class Services extends AdminBaseResourceController
                     'serviceHeadLine3' => $this->request->getVar('serviceHeadLine3'),
                     'serviceMainDescription3' => $this->request->getVar('serviceMainDescription3'),
                     'serviceHeadLineImageUrl3' => $this->handleUploadImage("serviceHeadLineImage3", 'serviceHeadLineImage3', '', 'defaultUrl'),
+                    'featureBannerImageUrl' => $this->handleUploadImage("featureBannerImage", 'featureBannerImage', '', 'defaultUrl'),
+                    'showOrder' => !empty($this->request->getVar('showOrder')) ??  $this->getNextShowOrder($this->model),
                     'status' => '1',
                     'statusOn' => date('Y-m-d H:i:s'),
                     'createdOn' => date('Y-m-d H:i:s'),
@@ -176,9 +180,13 @@ class Services extends AdminBaseResourceController
             if (!empty($this->request->getFile('serviceHeadLineImageUrl2'))) {
                 $validationArr['serviceHeadLineImage2'] = "max_size[serviceHeadLineImage2,10096]";
             }
+            if (!empty($this->request->getFile('featureBannerImageUrl'))) {
+                $validationArr['featureBannerImage'] = "max_size[featureBannerImage,10096]";
+            }
         } else {
             $validationArr['serviceBannerImage'] = "uploaded[serviceBannerImage]|max_size[serviceBannerImage,10096]";
             $validationArr['serviceHeadLineImage2'] = "uploaded[serviceHeadLineImage2]|max_size[serviceHeadLineImage2,10096]";
+            $validationArr['featureBannerImage'] = "uploaded[featureBannerImage]|max_size[featureBannerImage,10096]";
         }
         $validationArr['serviceTitle'] = "required|min_length[4]";
         $validationArr['serviceBannerImageTitle'] = "required|min_length[4]";

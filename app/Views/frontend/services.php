@@ -1,434 +1,126 @@
-<!DOCTYPE html>
-<html lang="en">
+  <?= $this->include('frontend/common/header') ?>
 
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <title>UNILAM</title>
-    <link rel="shortcut icon" type="image/x-icon" href="../public/mainassets/images/favicon.png" />
-    <link rel="stylesheet" href="../public/mainassets/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="../public/mainassets/css/font-awesome.min.css" />
-    <link rel="stylesheet" href="../public/mainassets/css/flaticon.css" />
-    <link rel="stylesheet" href="../public/mainassets/css/owl.carousel.min.css" />
-    <link rel="stylesheet" href="../public/mainassets/css/owl.theme.css" />
-    <link rel="stylesheet" href="../public/mainassets/css/magnific-popup.css" />
-    <link rel="stylesheet" href="../public/mainassets/css/lightgallery.css" />
-    <link rel="stylesheet" href="../public/mainassets/css/unilam-menu.css" />
-    <link rel="stylesheet" href="../public/mainassets/css/custom.css" />
+  <div id="content" class="site-content">
 
-    <link rel="stylesheet" href="../public/mainassets/style.css" />
-    <link rel="stylesheet" href="../public/mainassets/css/royal-preload.css" />
-    <!-- REVOLUTION SLIDER CSS -->
-    <link rel="stylesheet" type="text/css" href="../public/mainassets/plugins/revolution/revolution/css/settings.css">
-    <!-- REVOLUTION NAVIGATION STYLE -->
-    <link rel="stylesheet" type="text/css" href="../public/mainassets/plugins/revolution/revolution/css/navigation.css">
+      <div class="page-header dtable text-center header-transparent service-1" style="background-image: url( ../<?= isset($serviceDetails) ? $serviceDetails['serviceBannerImageUrl'] : '' ?>);">
+          <div class="dcell">
+              <div class="container">
+                  <?php if (isset($serviceDetails) && !empty($serviceDetails)) : ?>
+                      <h1 class="page-title"><?= $serviceDetails['serviceTitle'] ?></h1>
+                  <?php endif; ?>
+                  <ul id="breadcrumbs" class="breadcrumbs none-style">
+                      <li><a href="<?= base_url('home') ?>">Home</a></li>
+                      <?php if (isset($serviceDetails) && !empty($serviceDetails)) : ?>
+                          <li class="active"><?= $serviceDetails['serviceTitle'] ?></li>
+                      <?php endif; ?>
+                  </ul>
+              </div>
+          </div>
+      </div>
+  </div>
+  <?php if (isset($serviceDetails) && !empty($serviceDetails)) : ?>
+      <?php if (isset($serviceDetails['serviceHeadLine'])) : ?>
+          <section class="services-single">
+              <div class="container">
+                  <div class="row">
 
-    <link rel="stylesheet" href="../public/mainassets/css/jquery.mb.YTPlayer.min.css" type="text/css">
+                      <div class="col-lg-12 col-md-12">
+                          <div class="services-detail-content">
+                              <div class="ot-heading ">
+                                  <h2 class="main-heading"><?= $serviceDetails['serviceHeadLine'] ?></h2>
+                              </div>
+                              <p>
+                                  <?= $serviceDetails['serviceMainDescription'] ?>
+                              </p>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </section>
+      <?php endif; ?>
+      <?php if (isset($serviceDetails['serviceHeadLine2'])) : ?>
+          <section class="skill-4 p-md-0 pb-0">
+              <div class="container-fluid">
+                  <div class="row">
+                      <div class="col-xl-6 col-lg-12 col-md-12 bg2-aboutus align-self-center px-xl-0">
+                          <div class="skill-content-4">
+                              <div class="ot-heading is-dots">
+                                  <h2 class="main-heading"><?= $serviceDetails['serviceHeadLine2'] ?></h2>
+                              </div>
+                              <div class="space-20"></div>
+                              <div class="space-5"></div>
+                              <p>
+                                  <?= $serviceDetails['serviceMainDescription2'] ?>
+                              </p>
+                          </div>
+                      </div>
+                      <div class="col-xl-6 col-lg-12 col-md-12 p-lg-0 align-self-center">
+                          <div class="skill-img-4 text-center">
+                              <img src="<?= base_url($serviceDetails['serviceHeadLineImageUrl2']) ?>" alt="<?= $serviceDetails['serviceHeadLine2'] ?>">
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </section>
+      <?php endif; ?>
+  <?php endif; ?>
+  <?php if (isset($serviceFeatures) && !empty($serviceFeatures)) : ?>
+      <section class="process-area-5" style="    background-image: url(<?= base_url($serviceDetails['featureBannerImageUrl']) ?>);
+                                                background-attachment: fixed;
+                                                background-size: cover;
+                                                padding: 120px 0 80px 0;
+                            ">
+          <div class="container">
+              <div class="ot-process">
+                  <ul class="process_nav unstyle">
+                      <?php $rowNumber = 1; ?>
+                      <?php foreach ($serviceFeatures as $serviceFeatures_row) :  ?>
+                          <li class="mb-5 mb-lg-0">
+                              <div class="icon-main">
+                                  <span class="dcell"><i class="ot-flaticon-tip"></i></span>
+                                  <span class="number-stroke">0<?= $rowNumber++; ?></span>
+                              </div>
+                              <h5><?= $serviceFeatures_row->featureTitle; ?></h5>
+                              <div class="process-des">
+                                  <p class="process-des-item">
+                                      <?= $serviceFeatures_row->featureDescription; ?>
+                                  </p>
+                              </div>
+                          </li>
+                      <?php endforeach ?>
+                  </ul>
+              </div>
+          </div>
+      </section>
+  <?php endif; ?>
+  <?php if (isset($serviceDetails) && !empty($serviceDetails)) : ?>
+      <?php if (isset($serviceDetails['serviceHeadLine3'])) : ?>
+          <section class="testi-4 p-md-0">
+              <div class="container-fluid">
+                  <div class="row">
+                      <div class="col-xl-6 col-lg-12 px-xl-0">
+                          <div class="testi-img-3 text-center">
+                              <img src="<?= base_url($serviceDetails['serviceHeadLineImageUrl3']) ?>" alt="<?= $serviceDetails['serviceHeadLine3'] ?>">
+                              <div class="space-40 d-block d-md-none"></div>
+                          </div>
+                      </div>
+                      <div class="col-xl-6 col-lg-12 px-xl-0 mb-xl-0 align-self-center">
+                          <div class="testi-slide-block-4">
+                              <div class="ot-heading is-dots">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
-</head>
+                                  <h2 class="main-heading"><?= $serviceDetails['serviceHeadLine3'] ?></h2>
+                              </div>
+                              <div class="space-20"></div>
+                              <div class="space-5"></div>
+                              <p>
+                                  <?= $serviceDetails['serviceMainDescription3'] ?>
+                              </p>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </section>
+      <?php endif; ?>
+  <?php endif; ?>
 
-<body class="royal_preloader">
-    <div id="page" class="site">
-        <header id="site-header" class="site-header header-transparent">
-            <!-- Main Header start -->
-            <div class="octf-main-header is-fixed">
-                <div class="octf-area-wrap">
-                    <div class="container-fluid octf-mainbar-container">
-                        <div class="octf-mainbar">
-                            <div class="octf-mainbar-row octf-row">
-                                <div class="octf-col logo-col no-padding">
-                                    <div id="site-logo" class="site-logo">
-                                        <a href="../home">
-                                            <img src="../public/mainassets/images/logo.svg" alt="UNILAM" class="">
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="octf-col menu-col no-padding">
-                                    <nav id="site-navigation" class="main-navigation">
-                                        <ul class="menu">
-
-                                            <li><a href="../home">HOME</a></li>
-                                            <li><a href="../about">ABOUT</a></li>
-
-                                            <li class="menu-item-has-children mega-dropdown"><a href="../products">PRODUCTS</a>
-                                                <ul class="mega-sub-menu">
-                                                    <li class="row">
-                                                        <?php if (isset($navProducts) && !empty($navProducts)) : ?>
-                                                            <?php foreach ($navProducts as $navProducts_row) :  ?>
-                                                                <ul class="col">
-                                                                    <li>
-                                                                        <div class="nav-category-item d-flex">
-                                                                            <div class="thumbnail">
-                                                                                <div class="image">
-                                                                                    <img src="../<?= $navProducts_row->productImageUrl ?>" alt="Course images">
-                                                                                </div>
-                                                                                <a href="../products/<?= $navProducts_row->productID ?>">
-                                                                                    <?= $navProducts_row->productTitle ?>
-                                                                                </a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </li>
-                                                                </ul>
-                                                            <?php endforeach ?>
-                                                        <?php endif; ?>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                            <li class="menu-item-has-children"><a href="">SERVICES</a>
-                                                <ul class="sub-menu">
-                                                    <?php if (isset($navService) && !empty($navService)) : ?>
-                                                        <?php foreach ($navService as $navService_row) :  ?>
-                                                            <li><a href="<?= $navService_row->serviceID ?>"> <?= $navService_row->serviceTitle ?></a></li>
-                                                        <?php endforeach ?>
-                                                    <?php endif; ?>
-                                                </ul>
-                                            </li>
-                                            <li><a href="../works">OUR WORKS</a></li>
-                                            <li><a href="../contact">CONTACT US</a></li>
-                                        </ul>
-                                    </nav>
-                                </div>
-                                <div class="octf-col cta-col text-right no-padding">
-                                    <!-- Call To Action -->
-                                    <div class="octf-btn-cta">
-                                        <div class="octf-sidepanel octf-cta-header">
-                                            <div id="panel-btn" class="panel-btn octf-cta-icons"> <a href=""><i class="fa-solid fa-phone"></i></a></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="header_mobile">
-                <div class="container-fluid">
-                    <div class="octf-mainbar-row octf-row">
-                        <div class="octf-col">
-                            <div class="mlogo_wrapper clearfix">
-                                <div class="mobile_logo">
-                                    <a href="../home">
-                                        <img src="../public/mainassets/images/logo.svg" alt="UNILAM">
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="octf-col justify-content-end">
-
-                            <div class="octf-menu-mobile octf-cta-header">
-                                <div id="mmenu-toggle" class="mmenu-toggle">
-                                    <button><i class="ot-flaticon-menu"></i></button>
-                                </div>
-                                <div class="site-overlay mmenu-overlay"></div>
-                                <div id="mmenu-wrapper" class="mmenu-wrapper on-right">
-                                    <div class="mmenu-inner">
-                                        <a class="mmenu-close" href="#"><i class="ot-flaticon-right-arrow"></i></a>
-                                        <div class="mobile-nav">
-                                            <ul id="menu-main-menu" class="mobile_mainmenu none-style">
-
-                                                <li><a href="../home">HOME</a></li>
-                                                <li><a href="../about">ABOUT</a></li>
-                                                <li><a href="../products">PRODUCTS</a></li>
-
-                                                <li class="menu-item-has-children"><a href="">SERVICES</a>
-                                                    <ul class="sub-menu">
-                                                        <?php if (isset($navService) && !empty($navService)) : ?>
-                                                            <?php foreach ($navService as $navService_row) :  ?>
-                                                                <li><a href="manufacturing"> <?= $navService_row->serviceTitle ?></a></li>
-                                                            <?php endforeach ?>
-                                                        <?php endif; ?>
-                                                    </ul>
-                                                </li>
-
-                                                <li><a href="../works">OUR WORKS</a></li>
-                                                <li><a href="contact">CONTACT US</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </header>
-
-
-        <div id="content" class="site-content">
-
-            <div class="page-header dtable text-center header-transparent service-1" style="background-image: url( ../<?= isset($serviceDetails) ? $serviceDetails['serviceBannerImageUrl'] : '' ?>);">
-                <div class="dcell">
-                    <div class="container">
-                        <?php if (isset($serviceDetails) && !empty($serviceDetails)) : ?>
-                            <h1 class="page-title"><?= $serviceDetails['serviceTitle'] ?></h1>
-                        <?php endif; ?>
-                        <ul id="breadcrumbs" class="breadcrumbs none-style">
-                            <li><a href="../home">Home</a></li>
-                            <?php if (isset($serviceDetails) && !empty($serviceDetails)) : ?>
-                                <li class="active"><?= $serviceDetails['serviceTitle'] ?></li>
-                            <?php endif; ?>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <?php if (isset($serviceDetails) && !empty($serviceDetails)) : ?>
-            <?php if (isset($serviceDetails['serviceHeadLine'])) : ?>
-                <section class="services-single">
-                    <div class="container">
-                        <div class="row">
-
-                            <div class="col-lg-12 col-md-12">
-                                <div class="services-detail-content">
-                                    <div class="ot-heading ">
-                                        <h2 class="main-heading"><?= $serviceDetails['serviceHeadLine'] ?></h2>
-                                    </div>
-                                    <p>
-                                        <?= $serviceDetails['serviceMainDescription'] ?>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            <?php endif; ?>
-            <?php if (isset($serviceDetails['serviceHeadLine2'])) : ?>
-                <section class="skill-4 p-md-0 pb-0">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-xl-6 col-lg-12 col-md-12 bg2-aboutus align-self-center px-xl-0">
-                                <div class="skill-content-4">
-                                    <div class="ot-heading is-dots">
-                                        <h2 class="main-heading"><?= $serviceDetails['serviceHeadLine2'] ?></h2>
-                                    </div>
-                                    <div class="space-20"></div>
-                                    <div class="space-5"></div>
-                                    <p>
-                                        <?= $serviceDetails['serviceMainDescription2'] ?>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="col-xl-6 col-lg-12 col-md-12 p-lg-0 align-self-center">
-                                <div class="skill-img-4 text-center">
-                                    <img src="../<?= $serviceDetails['serviceHeadLineImageUrl2'] ?>" alt="<?= $serviceDetails['serviceHeadLine2'] ?>">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            <?php endif; ?>
-        <?php endif; ?>
-        <section class="process-area-5">
-            <div class="container">
-                <div class="ot-process">
-                    <ul class="process_nav unstyle">
-                        <li class="mb-5 mb-lg-0">
-                            <div class="icon-main">
-                                <span class="dcell"><i class="ot-flaticon-tip"></i></span>
-                                <span class="number-stroke">01</span>
-                            </div>
-                            <h5>Pressing</h5>
-                            <div class="process-des">
-                                <p class="process-des-item">The raw MDF is pressed with a high-quality paper to give the desired color and finishing that would suit your needs and taste.
-                                </p>
-                            </div>
-                        </li>
-                        <li class="mt-xl-40 mb-5 mb-lg-0">
-                            <div class="icon-main">
-                                <span class="dcell"><i class="ot-flaticon-tip"></i></span>
-                                <span class="number-stroke">02</span>
-                            </div>
-                            <h5>Cutting</h5>
-                            <div class="process-des">
-                                <p class="process-des-item">The melamine faced MDF board is cut using the highest tech machines to give the most accurate size required.
-                                </p>
-                            </div>
-                        </li>
-                        <li class="mb-5 mb-lg-0">
-                            <div class="icon-main">
-                                <span class="dcell"><i class="ot-flaticon-tip"></i></span>
-                                <span class="number-stroke">03</span>
-                            </div>
-                            <h5> Lipping and Drilling </h5>
-                            <div class="process-des">
-                                <p class="process-des-item">The cut-to-size boards now get the final touches to give the highest quality finishing and a fine luxurious look.
-                                </p>
-                            </div>
-                        </li>
-                        <li class="mt-xl-40">
-                            <div class="icon-main">
-                                <span class="dcell"><i class="ot-flaticon-tip"></i></span>
-                                <span class="number-stroke">04</span>
-                            </div>
-                            <h5>Pre-assembly </h5>
-                            <div class="process-des">
-                                <p class="process-des-item">This is where our quality control team makes sure that your product is according to the highest standards before we deliver it to you.
-                                </p>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <?php if (isset($serviceDetails) && !empty($serviceDetails)) : ?>
-            <?php if (isset($serviceDetails['serviceHeadLine3'])) : ?>
-                <section class="testi-4 p-md-0">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-xl-6 col-lg-12 px-xl-0">
-                                <div class="testi-img-3 text-center">
-                                    <img src="../<?= $serviceDetails['serviceHeadLineImageUrl3'] ?>" alt="<?= $serviceDetails['serviceHeadLine3'] ?>">
-                                    <div class="space-40 d-block d-md-none"></div>
-                                </div>
-                            </div>
-                            <div class="col-xl-6 col-lg-12 px-xl-0 mb-xl-0 align-self-center">
-                                <div class="testi-slide-block-4">
-                                    <div class="ot-heading is-dots">
-
-                                        <h2 class="main-heading"><?= $serviceDetails['serviceHeadLine3'] ?></h2>
-                                    </div>
-                                    <div class="space-20"></div>
-                                    <div class="space-5"></div>
-                                    <p>
-                                        <?= $serviceDetails['serviceMainDescription3'] ?>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            <?php endif; ?>
-        <?php endif; ?>
-        <footer id="site-footer" class="site-footer">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 mb-4 mb-xl-0">
-                        <div class="widget-footer">
-                            <img src="../public/mainassets/images/logo-footer.svg" class="footer-logo" alt="">
-                            <?php if (isset($contactDetails) && !empty($contactDetails)) : ?>
-                                <div class="footer-social list-social">
-                                    <ul>
-                                        <li><a href="<?= $contactDetails['faceBookLink'] ?>" target="_self"><i class="fab fa-facebook-f"></i></a></li>
-                                        <li><a href="<?= $contactDetails['twitterLink'] ?>" target="_self"><i class="fab fa-twitter"></i></a>
-                                        </li>
-                                        <li><a href="<?= $contactDetails['linkedInLink'] ?>" target="_self"><i class="fab fa-linkedin-in"></i></a></li>
-                                        <li><a href="<?= $contactDetails['instagramLink'] ?>" target="_self"><i class="fab fa-instagram"></i></a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            <?php endif; ?>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 mb-4 mb-xl-0">
-                        <div class="widget-footer">
-                            <h6>Contacts</h6>
-                            <ul class="footer-list">
-                                <li class="footer-list-item d-flex">
-                                    <span class="list-item-icon"><i class="ot-flaticon-place"></i></span>
-                                    <span class="list-item-text"><?= $contactDetails['address'] ?></span>
-                                </li>
-                                <li class="footer-list-item">
-                                    <span class="list-item-icon"><i class="ot-flaticon-mail"></i></span>
-                                    <span class="list-item-text"><?= $contactDetails['email'] ?></span>
-                                </li>
-                                <li class="footer-list-item">
-                                    <span class="list-item-icon"><i class="ot-flaticon-phone-call"></i></span>
-                                    <span class="list-item-text">+971 <?= $contactDetails['phone'] ?></span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 mb-4 mb-md-0">
-                        <div class="widget-footer widget-contact">
-                            <h6>Quick Links</h6>
-                            <ul>
-                                <li><a href="../home">Home</a></li>
-                                <li><a href="../about">About</a></li>
-                                <li><a href="products">Products</a></li>
-                                <li><a href="">Services</a></li>
-                                <li><a href="ourworks">Our Works</a></li>
-                                <li><a href="contactus">Contact Us</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
-                        <div class="widget-footer footer-widget-subcribe">
-                            <div class="widget-footer widget-contact">
-                                <h6>Quick Links</h6>
-                                <ul>
-                                    <?php if (isset($navService) && !empty($navService)) : ?>
-                                        <?php foreach ($navService as $navService_row) :  ?>
-                                            <li>
-                                                <a href="<?= $navService_row->serviceID ?>">
-                                                    <?= $navService_row->serviceTitle ?>
-                                                </a>
-                                            </li>
-                                        <?php endforeach ?>
-                                    <?php endif; ?>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </footer><!-- #site-footer -->
-        <div class="footer-bottom">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-7 col-md-12 mb-4 mb-lg-0">
-                        <p>©2023 Unilam Wood Industries LLC All rights reserved</p>
-                    </div>
-                    <div class="col-lg-5 col-md-12 align-self-center text-right">
-                        <p>Design By <a class="text-light" href="#">Tomsher</a></p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div><!-- #page -->
-    <a id="back-to-top" href="#" class="show"><i class="ot-flaticon-left-arrow"></i></a>
-    <!-- jQuery -->
-    <script src="../public/mainassets/js/jquery.min.js"></script>
-    <script src="../public/mainassets/js/mousewheel.min.js"></script>
-    <script src="../public/mainassets/js/lightgallery-all.min.js"></script>
-    <script src="../public/mainassets/js/jquery.magnific-popup.min.js"></script>
-    <script src="../public/mainassets/js/jquery.isotope.min.js"></script>
-    <script src="../public/mainassets/js/owl.carousel.min.js"></script>
-    <script src="../public/mainassets/js/easypiechart.min.js"></script>
-    <script src="../public/mainassets/js/jquery.countdown.min.js"></script>
-    <script src="../public/mainassets/js/scripts.js"></script>
-    <script src="../public/mainassets/js/royal_preloader.min.js"></script>
-    <!-- REVOLUTION JS FILES -->
-
-    <script src="../public/mainassets/plugins/revolution/revolution/js/jquery.themepunch.tools.min.js"></script>
-    <script src="../public/mainassets/plugins/revolution/revolution/js/jquery.themepunch.revolution.min.js"></script>
-
-    <!-- SLIDER REVOLUTION 5.0 EXTENSIONS  (Load Extensions only on Local File Systems !  The following part can be removed on Server for On Demand Loading) -->
-    <script src="../public/mainassets/plugins/revolution/revolution/js/extensions/revolution-plugin.js"></script>
-
-    <!-- REVOLUTION SLIDER SCRIPT FILES -->
-    <script src="../public/mainassets/js/rev-script-1.js"></script>
-
-    <script src="../public/mainassets/js/jquery.mb.YTPlayer.min.js"></script>
-    <script>
-        window.jQuery = window.$ = jQuery;
-        (function($) {
-            "use strict";
-            //Preloader
-            Royal_Preloader.config({
-                mode: 'progress',
-                background: '#1a1a1a',
-            });
-        })(jQuery);
-    </script>
-    <script>
-        (function($) {
-            "use strict";
-            jQuery(".player").YTPlayer();
-        })(jQuery);
-    </script>
-</body>
-
-</html>
+  <?= $this->include('frontend/common/footer') ?>

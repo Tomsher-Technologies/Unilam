@@ -664,7 +664,7 @@ big {
 }
 
 .title-link:hover {
-  background-size: 100% 2px;
+  /* background-size: 100% 2px; */
 }
 
 .btn-details {
@@ -5457,13 +5457,19 @@ object {
   color: #fff;
   margin-bottom: 26px;
 }
+.ot-process .process-des p {
+  padding: 38px 50px 0;
+  text-align: center;
+  color: #d8d8d8;
+  margin: 0;
+}
 
-.ot-process .process-des-item {
+/* .ot-process .process-des-item {
   padding: 38px 50px 0;
   text-align: center;
   color: #a3a3a3;
   margin: 0;
-}
+} */
 
 .ot-process:not([data-tab]) .process_nav {
   border-bottom: none;
