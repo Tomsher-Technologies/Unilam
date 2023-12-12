@@ -10,6 +10,6 @@ class AdminUserTypes_model extends Model
     protected $table = 'user_types';
     protected $primaryKey = 'userTypeID';
     protected $allowedFields = [
-        'userType', 'status', 'statusOn', 'createdOn', 'updatedOn'
+        'canonicalName', 'userType', 'status', 'statusOn', 'createdOn', 'updatedOn'
     ];
 }

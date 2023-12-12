@@ -104,7 +104,7 @@
                                                             </td>
                                                             <td>
                                                                 <div class="tools">
-                                                                    <a href="edit-work/<?= $worksDetails_row['workID']; ?>">
+                                                                    <a href="edit-work/<?= $worksDetails_row['canonicalName']; ?>">
                                                                         <i class="mdi mdi-pencil"></i>
                                                                     </a>
                                                                     <a class="deleteButton" href="delete-work/<?= $worksDetails_row['workID']; ?>">

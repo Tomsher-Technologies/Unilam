@@ -10,7 +10,7 @@ class AdminServiceFeature_model extends AdminBaseModel
     protected $table = 'service_feature';
     protected $primaryKey = 'featureID';
     protected $allowedFields = [
-        'featureTitle', 'featureDescription', 'featureIconUrl',  'showOrder', 'status', 'statusOn', 'createdOn', 'updatedOn'
+        'canonicalName', 'featureTitle', 'featureDescription', 'featureIconUrl',  'showOrder', 'status', 'statusOn', 'createdOn', 'updatedOn'
     ];
 }
 // $canon_name = strtolower($_POST['ProductsServices']['product_name_en']);

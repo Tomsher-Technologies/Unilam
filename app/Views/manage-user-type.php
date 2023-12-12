@@ -15,7 +15,7 @@
 <body>
     <div id="layout-wrapper">
         <?php
-        if (isset($post['userTypeID'])) {
+        if (isset($post['canonicalName'])) {
             echo $this->include('partials/menudoubleback');
         } else {
             echo $this->include('partials/menu');
@@ -49,7 +49,7 @@
                     <div class="row">
                         <div class="col-xl-12">
                             <div class="card">
-                                <form class="needs-validation p-5 custom-form mt-4 pt-2" method="POST" action="<?= isset($post['userTypeID']) ? base_url("admin/edit-user-type/{$post['userTypeID']}") : base_url('admin/create-user-type'); ?>" novalidate>
+                                <form class="needs-validation p-5 custom-form mt-4 pt-2" method="POST" action="<?= isset($post['canonicalName']) ? base_url("admin/edit-user-type/{$post['canonicalName']}") : base_url('admin/create-user-type'); ?>" novalidate>
                                     <div class="mb-3">
                                         <label class="form-label">User Type Name </label>
                                         <input type="text" name="userType" class="form-control" id="userType" placeholder="Enter user type name" value="<?= isset($post['userType']) ? $post['userType'] : ''; ?>" required>

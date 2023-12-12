@@ -104,10 +104,10 @@
                                                             </td>
                                                             <td>
                                                                 <div class="tools">
-                                                                    <a href="edit-product/<?= $productDetails_row['productID']; ?>">
+                                                                    <a href="edit-product/<?= $productDetails_row['canonicalName']; ?>">
                                                                         <i class="mdi mdi-pencil"></i>
                                                                     </a>
-                                                                    <a href="manage-product-types/<?= $productDetails_row['productID']; ?>">
+                                                                    <a href="manage-product-types/<?= $productDetails_row['canonicalName']; ?>">
                                                                         <i class="fas fa-plus-circle"></i>
                                                                     </a>
                                                                 </div>

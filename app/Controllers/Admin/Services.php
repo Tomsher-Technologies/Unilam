@@ -44,23 +44,22 @@ class Services extends AdminBaseResourceController
         }
     }
 
-    public function editservice($serviceID = null)
+    public function editservice($canonicalName = null)
     {
         $session = session();
 
         $data = [
             'page_title' => view('partials/page-title', ['title' => 'Edit Services', 'li_1' => 'Services', 'li_2' => 'Edit Services'])
         ];
-        $data['post'] = $this->model->where('serviceID', $serviceID)->where('status', 1)->first();
+        $data['post'] = $this->model->where('canonicalName', $canonicalName)->where('status', 1)->first();
+        if (!empty($data['post'])) {
+            if (($this->request->getMethod() === 'post') && !empty($data['post']['serviceID'])) {
 
-        if (($this->request->getMethod() === 'post') && !empty($serviceID)) {
-            if (!empty($data['post'])) {
-
-                $response =  $this->manageservice($serviceID);
+                $response =  $this->manageservice($data['post']['serviceID']);
                 if ($response === 'Success') {
                     $session->setFlashdata('successMessage', 'Successfully updated service');
 
-                    if (!empty($serviceID)) {
+                    if (!empty($data['post']['serviceID'])) {
 
                         return redirect()->to('../admin/service-lists');
                     } else {
@@ -71,11 +70,11 @@ class Services extends AdminBaseResourceController
                     return view('manage-service', $data);
                 }
             } else {
-                $session->setFlashdata('errorMessage', 'This service not found!');
                 return view('manage-service', $data);
             }
         } else {
-            return view('manage-service', $data);
+            $session->setFlashdata('errorMessage', 'This service not found!');
+            return view('service-lists', $data);
         }
     }
 
@@ -87,9 +86,14 @@ class Services extends AdminBaseResourceController
         $data['post'] = $_POST;
 
         if ($this->validateInput($serviceID)) {
-            if (!empty($serviceID)) {
+            $canonName = strtolower($this->request->getVar('serviceTitle'));
+            $canonicalName = str_replace(' ', '-', $canonName); // Replaces all spaces with hyphens.
+            $canonicalName = preg_replace('/[^A-Za-z0-9\-]/', '', $canonicalName); // Removes special chars.
+            $cann = preg_replace('/-+/', '-', $canonicalName);
 
+            if (!empty($serviceID)) {
                 $updateData = [
+                    'canonicalName' => $cann . '-' . $serviceID,
                     'serviceTitle' => $this->request->getVar('serviceTitle'),
                     'serviceHeadLine' => $this->request->getVar('serviceHeadLine'),
                     'serviceBannerImageTitle' => $this->request->getVar('serviceBannerImageTitle'),
@@ -103,7 +107,7 @@ class Services extends AdminBaseResourceController
                     'serviceMainDescription3' => $this->request->getVar('serviceMainDescription3'),
                     'serviceHeadLineImageUrl3' => $this->handleUploadImage("serviceHeadLineImage3", 'serviceHeadLineImage3', '', $this->request->getVar('serviceHeadLineImageUrl3')),
                     'featureBannerImageUrl' => $this->handleUploadImage("featureBannerImage", 'featureBannerImage', '', $this->request->getVar('featureBannerImageUrl')),
-                    'showOrder' => !empty($this->request->getVar('showOrder')) ??  $this->getNextShowOrder($this->model),
+                    'showOrder' => !empty($this->request->getVar('showOrder')) ? $this->request->getVar('showOrder') :  $this->getNextShowOrder($this->model),
                     'updatedOn' => date('Y-m-d H:i:s'),
                 ];
                 $this->model->update($serviceID, $updateData);
@@ -124,7 +128,7 @@ class Services extends AdminBaseResourceController
                     'serviceMainDescription3' => $this->request->getVar('serviceMainDescription3'),
                     'serviceHeadLineImageUrl3' => $this->handleUploadImage("serviceHeadLineImage3", 'serviceHeadLineImage3', '', 'defaultUrl'),
                     'featureBannerImageUrl' => $this->handleUploadImage("featureBannerImage", 'featureBannerImage', '', 'defaultUrl'),
-                    'showOrder' => !empty($this->request->getVar('showOrder')) ??  $this->getNextShowOrder($this->model),
+                    'showOrder' => !empty($this->request->getVar('showOrder')) ? $this->request->getVar('showOrder') :  $this->getNextShowOrder($this->model),
                     'status' => '1',
                     'statusOn' => date('Y-m-d H:i:s'),
                     'createdOn' => date('Y-m-d H:i:s'),
@@ -136,6 +140,8 @@ class Services extends AdminBaseResourceController
 
                 $serviceID =  $this->model->insertID();
                 if ($serviceID) {
+
+                    $this->model->update($serviceID, ['canonicalName' => $cann . '-' . $serviceID]);
 
                     return 'Success';
                 } else {

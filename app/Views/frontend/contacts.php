@@ -68,7 +68,7 @@
                                     </p>
                                     <p>
                                         <label for="message"></label>
-                                        <textarea name="message" value="<?= isset($post['message']) ? $post['message'] : '' ?>" id="message" cols="40" rows="10" class="" aria-invalid="false" placeholder="Message..." required></textarea>
+                                        <textarea name="message" value="<?= isset($post['message']) ? $post['message'] : '' ?>" id="message" cols="40" rows="10" class="" aria-invalid="false" placeholder="Message *" required></textarea>
                                     </p>
                                     <p><button type="submit" id="send" class="octf-btn">Send Message</button></p>
                                     <div class="clear"></div>
@@ -104,6 +104,7 @@
                                     <div class="info-text">
                                         <h6>OUR MAILBOX:</h6>
                                         <p><a href="mailto:info@unilam.ae"><?= $contactDetails['email'] ?></a></p>
+                                        <p><a href="mailto:marketing@unilam.ae"><?= $contactDetails['email2'] ?></a></p>
                                     </div>
                                 </div>
                                 <div class="contact-info">
@@ -112,18 +113,18 @@
                                         <h6>OUR PHONE:</h6>
                                         <p>
                                             <a href="tel:+971 <?= $contactDetails['phone'] ?>">
-                                                +971;&nbsp;<?= $contactDetails['phone'] ?>
+                                                +971&nbsp;<?= $contactDetails['phone'] ?>
                                             </a>
                                         </p>
                                     </div>
                                 </div>
                                 <div class="list-social">
                                     <ul>
-                                        <li><a href="<?= $contactDetails['faceBookLink'] ?>" target="_self"><i class="fab fa-facebook-f"></i></a></li>
-                                        <li><a href="<?= $contactDetails['twitterLink'] ?>" target="_self"><i class="fab fa-twitter"></i></a>
-                                        </li>
-                                        <li><a href="<?= $contactDetails['linkedInLink'] ?>" target="_self"><i class="fab fa-linkedin-in"></i></a></li>
-                                        <li><a href="<?= $contactDetails['instagramLink'] ?>" target="_self"><i class="fab fa-instagram"></i></a>
+                                        <!--<li><a href="<?= $contactDetails['faceBookLink'] ?>" target="_self"><i class="fab fa-facebook-f"></i></a></li>-->
+                                        <!--<li><a href="<?= $contactDetails['twitterLink'] ?>" target="_self"><i class="fab fa-twitter"></i></a>-->
+                                        <!--</li>-->
+                                        <li><a href="<?= $contactDetails['linkedInLink'] ?>" target="_blank"><i class="fab fa-linkedin-in"></i></a></li>
+                                        <li><a href="<?= $contactDetails['instagramLink'] ?>" target="_blank"><i class="fab fa-instagram"></i></a>
                                         </li>
                                     </ul>
                                 </div>

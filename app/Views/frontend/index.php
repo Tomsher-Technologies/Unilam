@@ -65,12 +65,12 @@
           <div class="banner-desc-1">
               <ul>
                   <?php if (isset($contactDetails) && !empty($contactDetails)) : ?>
-                      <li><a href="<?= $contactDetails['twitterLink'] ?>"><i class="fa-brands fa-x-twitter"></i></a></li>
-                      <li><a href="<?= $contactDetails['faceBookLink'] ?>"><i class="fa-brands fa-facebook-f"></i></a></li>
-                      <li><a href="<?= $contactDetails['linkedInLink'] ?>"><i class="fa-brands fa fa-linkedin-in"></i></a></li>
-                      <li><a href="<?= $contactDetails['instagramLink'] ?>"><i class="fa-brands fa fa-instagram"></i></a></li>
-                      <li><a href="<?= $contactDetails['youTubeLink'] ?>"><i class="fa-brands fa fa-youtube"></i></a></li>
-                      <li><a href="<?= $contactDetails['whatsAppLink'] ?>"><i class="fa-brands fa fa-whatsapp"></i></a></li>
+                      <!--<li><a href="<?= $contactDetails['twitterLink'] ?>" target="_blank"><i class="fa-brands fa-x-twitter"></i></a></li>-->
+                      <!--<li><a href="<?= $contactDetails['faceBookLink'] ?>" target="_blank"><i class="fa-brands fa-facebook-f"></i></a></li>-->
+                      <li><a href="<?= $contactDetails['linkedInLink'] ?>" target="_blank"><i class="fa-brands fa fa-linkedin-in"></i></a></li>
+                      <li><a href="<?= $contactDetails['instagramLink'] ?>" target="_blank"><i class="fa-brands fa fa-instagram"></i></a></li>
+                      <!--<li><a href="<?= $contactDetails['youTubeLink'] ?>" target="_blank"><i class="fa-brands fa fa-youtube"></i></a></li>-->
+                      <li><a href="<?= $contactDetails['whatsAppLink'] ?>" target="_blank"><i class="fa-brands fa fa-whatsapp"></i></a></li>
                   <?php endif; ?>
               </ul>
           </div>
@@ -113,20 +113,25 @@
                   <span class="g-line-vertical line-left color-line-default"></span>
                   <span class="g-line-vertical line-right color-line-default"></span>
               </div>
-              <div class="container">
-                  <div class="row">
-                      <div class="col-lg-12 col-sm-12">
-                          <div class="our-skill-content-3">
-                              <div class="ot-heading text-center">
-                                  <span>[ Our Products ]</span>
-                                  <h2 class="main-heading">Premium Quality Products</h2>
+              <?php if (isset($contentDetails) && !empty($contentDetails)) : ?>
+                  <div class="container">
+                      <div class="row">
+                          <div class="col-lg-12 col-sm-12">
+                              <div class="our-skill-content-3">
+                                  <div class="ot-heading text-center">
+                                      <?php if (isset($contentDetails) && isset($contentDetails['contentSubTitle1']) && !empty($contentDetails['contentSubTitle1'])) : ?>
+                                          <span>[ <?= $contentDetails['contentSubTitle1'] ?> ]</span>
+                                      <?php endif; ?>
+                                      <?php if (isset($contentDetails) && isset($contentDetails['contentTitle1']) && !empty($contentDetails['contentTitle1'])) : ?>
+                                          <h2 class="main-heading"><?= $contentDetails['contentTitle1'] ?></h2>
+                                      <?php endif; ?>
+                                  </div>
+                                  <div class="space-50"></div>
                               </div>
-                              <div class="space-50"></div>
                           </div>
                       </div>
                   </div>
-              </div>
-
+              <?php endif; ?>
               <div class="container-fluid px-0 px-xl-90">
                   <div class="project-slider-4item projects-grid style-2 no-gaps m-0 img-scale owl-theme ">
                       <div class="row">
@@ -191,19 +196,25 @@
                   <span class="g-line-vertical line-left color-line-default"></span>
                   <span class="g-line-vertical line-right color-line-default"></span>
               </div>
-              <div class="container">
-                  <div class="row">
-                      <div class="col-lg-12 col-sm-12">
-                          <div class="our-skill-content-3">
-                              <div class="ot-heading text-center">
-                                  <span>[ OUR SERVICES ]</span>
-                                  <h2 class="main-heading">What Can We Offer</h2>
+              <?php if (isset($contentDetails) && !empty($contentDetails)) : ?>
+                  <div class="container">
+                      <div class="row">
+                          <div class="col-lg-12 col-sm-12">
+                              <div class="our-skill-content-3">
+                                  <div class="ot-heading text-center">
+                                      <?php if (isset($contentDetails) && isset($contentDetails['contentSubTitle2']) && !empty($contentDetails['contentSubTitle2'])) : ?>
+                                          <span>[ <?= $contentDetails['contentSubTitle2'] ?> ]</span>
+                                      <?php endif; ?>
+                                      <?php if (isset($contentDetails) && isset($contentDetails['contentTitle2']) && !empty($contentDetails['contentTitle2'])) : ?>
+                                          <h2 class="main-heading"><?= $contentDetails['contentTitle2'] ?></h2>
+                                      <?php endif; ?>
+                                  </div>
+                                  <div class="space-50"></div>
                               </div>
-                              <div class="space-50"></div>
                           </div>
                       </div>
                   </div>
-              </div>
+              <?php endif; ?>
               <div>
                   <div class="container-fluid">
                       <div class="row justify-content-center">
@@ -299,9 +310,14 @@
           <div class="container">
               <div class="row">
                   <div class="col-lg-8 mb-4 mb-lg-0">
-                      <h2 class="text-light mb-0">Building Dreams</h2>
+                      <?php if (isset($contentDetails) && isset($contentDetails['contentTitle3']) && !empty($contentDetails['contentTitle3'])) : ?>
+                          <h2 class="text-light mb-0"><?= $contentDetails['contentTitle3'] ?></h2>
+                      <?php endif; ?>
                       <div class="space-5"></div>
-                      <p class=" mb-0">At every stage, we could supervise your project</p>
+                      <?php if (isset($contentDetails) && isset($contentDetails['contentSubTitle3']) && !empty($contentDetails['contentSubTitle3'])) : ?>
+                          <p class=" mb-0"><?= $contentDetails['contentSubTitle3'] ?></p>
+                      <?php endif; ?>
+
                   </div>
                   <div class="col-lg-4 text-left text-lg-right align-self-center">
                       <div class="ot-button">

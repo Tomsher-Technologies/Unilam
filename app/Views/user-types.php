@@ -97,7 +97,7 @@
                                                             </td>
                                                             <td>
                                                                 <div class="tools">
-                                                                    <a href="edit-user-type/<?= $userTypeDetails_row['userTypeID']; ?>">
+                                                                    <a href="edit-user-type/<?= $userTypeDetails_row['canonicalName']; ?>">
                                                                         <i class="mdi mdi-pencil"></i>
                                                                     </a>
                                                                     <a class="deleteButton" href="delete-user-type/<?= $userTypeDetails_row['userTypeID']; ?>">

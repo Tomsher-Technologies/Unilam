@@ -15,6 +15,7 @@ use App\Models\Admin\AdminProductTypes_model;
 use App\Models\Admin\AdminProductTypeDetails_model;
 use App\Models\User\UserContactDetails_model;
 use App\Models\Admin\AdminServiceFeature_model;
+use App\Models\Admin\AdminContent_model;
 
 class Home extends AdminBaseResourceController
 {
@@ -28,14 +29,15 @@ class Home extends AdminBaseResourceController
 		$FeatureModel = new AdminFeature_model();
 		$WorksModel  = new AdminWorks_model();
 		$ContactModel  = new AdminContact_model();
+		$ContentModel = new AdminContent_model();
 
-		$data['navProducts'] = $ProductModel->select('productID, productTitle, productImageUrl, menuProductImageUrl')->orderBy('showOrder', 'ASC')->limit(9)->get()->getResult();
-		$data['navService'] = $ServicesModel->select('serviceID, serviceTitle')->orderBy('showOrder', 'ASC')->get()->getResult();
+		$data['navProducts'] = $ProductModel->where('status', '1')->select('productID, canonicalName, productTitle, productImageUrl, menuProductImageUrl')->orderBy('showOrder', 'ASC')->limit(9)->get()->getResult();
+		$data['navService'] = $ServicesModel->select('serviceID, canonicalName, serviceTitle')->orderBy('showOrder', 'ASC')->get()->getResult();
 		$data['bannerDetails'] = $BannerModel->select('bannerID, bannerHeading, bannerTitle, bannerUrl, bannerFileUrl')->orderBy('showOrder', 'ASC')->get()->getResultArray();
 		$data['contactDetails'] = $ContactModel->where('contactType', 'main')->select('*')->first();
 		$data['aboutDashboardDetails'] = $AboutModel->where('aboutType', 'aboutdashboard')->select('aboutID, aboutType, bannerTitle, bannerImageUrl, aboutAuthorName, aboutTitle, aboutDescription, aboutImageUrl')->first();
 		$data['productDetails'] = $ProductModel->distinct()
-			->select('P.productID, P.productTypeIDs, P.productTitle, P.productImageUrl, PM.materialName')
+			->select('P.productID, P.productTypeIDs, P.canonicalName, P.productTitle, P.productImageUrl, PM.materialName')
 			->from('products as P')
 			->join('product_material as PM', 'P.materialID = PM.materialID')
 			->where('P.status', '1')
@@ -44,15 +46,16 @@ class Home extends AdminBaseResourceController
 			->get()->getResultArray();
 		$data['dashboardChooseDetails'] = $AboutModel->where('aboutType', 'dashboardchoose')->select('aboutID, aboutType, bannerTitle, bannerImageUrl, aboutAuthorName, aboutTitle, aboutDescription')->first();
 		// echo $AboutModel->getLastQuery()->getQuery();die();
-		$data['serviceDetails'] = $ServicesModel->select('serviceID, serviceTitle, serviceBannerImageUrl')->limit(3)->orderBy('showOrder', 'ASC')->get()->getResultArray();
+		$data['serviceDetails'] = $ServicesModel->select('serviceID, canonicalName, serviceTitle, serviceBannerImageUrl')->limit(3)->orderBy('showOrder', 'ASC')->get()->getResultArray();
 		$data['dashboardProjectDetails'] = $AboutModel->where('aboutType', 'dashboardprojectside')->select('aboutID, aboutType, aboutAuthorName, aboutTitle')->first();
 		$data['featuresDetails'] = $FeatureModel->select('featureID, featureTitle, featureDescription, featureIconUrl')->orderBy('showOrder', 'ASC')->limit(6)->get()->getResult();
 		$data['worksDetails'] = $WorksModel->distinct()
-			->select("OW.workID, OW.projectTitle, OW.workImageUrl, WC.categoryName")
+			->select("OW.workID, OW.canonicalName, OW.projectTitle, OW.workImageUrl, WC.categoryName")
 			->from('our_works as OW')
 			->join('work_category as WC', 'OW.workCategoryID = WC.categoryID')
 			->orderBy('OW.showOrder', 'ASC')
 			->limit(4)->get()->getResult();
+		$data['contentDetails'] = $ContentModel->where('contentType', 'Dashboard')->select('*')->first();
 
 		// print_r($data['dashboardChooseDetails']);
 		// die();
@@ -67,26 +70,26 @@ class Home extends AdminBaseResourceController
 		$ServicesModel = new AdminServices_model();
 		$ContactModel  = new AdminContact_model();
 
-		$data['navProducts'] = $ProductModel->select('productID, productTitle, productImageUrl, menuProductImageUrl')->orderBy('showOrder', 'ASC')->limit(9)->get()->getResult();
-		$data['navService'] = $ServicesModel->select('serviceID, serviceTitle')->orderBy('showOrder', 'ASC')->get()->getResult();
+		$data['navProducts'] = $ProductModel->where('status', '1')->select('productID, canonicalName, productTitle, productImageUrl, menuProductImageUrl')->orderBy('showOrder', 'ASC')->limit(9)->get()->getResult();
+		$data['navService'] = $ServicesModel->select('serviceID, canonicalName, serviceTitle')->orderBy('showOrder', 'ASC')->get()->getResult();
 		$data['contactDetails'] = $ContactModel->where('contactType', 'main')->select('*')->first();
 		$data['aboutPageDetails'] = $AboutModel->where('aboutType', 'aboutpage')->select('')->first(); // echo "About";
 
 		return view('frontend/about', $data);
 	}
 
-	public function services($serviceID = null)
+	public function services($canonicalName = null)
 	{
 		$ContactModel  = new AdminContact_model();
 		$ProductModel = new AdminProduct_model();
 		$ServicesModel = new AdminServices_model();
 		$ServiceFeatureModel = new AdminServiceFeature_model();
 
-		$data['navProducts'] = $ProductModel->select('productID, productTitle, productImageUrl, menuProductImageUrl')->orderBy('showOrder', 'ASC')->limit(9)->get()->getResult();
-		$data['navService'] = $ServicesModel->select('serviceID, serviceTitle')->orderBy('showOrder', 'ASC')->get()->getResult();
+		$data['navProducts'] = $ProductModel->where('status', '1')->select('productID, canonicalName, productTitle, productImageUrl, menuProductImageUrl')->orderBy('showOrder', 'ASC')->limit(9)->get()->getResult();
+		$data['navService'] = $ServicesModel->select('serviceID, canonicalName, serviceTitle')->orderBy('showOrder', 'ASC')->get()->getResult();
 		$data['contactDetails'] = $ContactModel->where('contactType', 'main')->select('*')->first();
 
-		$data['serviceDetails'] = $ServicesModel->where('serviceID', $serviceID)->select('*')->orderBy('showOrder', 'ASC')->first();
+		$data['serviceDetails'] = $ServicesModel->where('canonicalName', $canonicalName)->select('*')->orderBy('showOrder', 'ASC')->first();
 		$data['serviceFeatures'] = $ServiceFeatureModel->select('featureID, featureTitle, featureDescription, featureIconUrl')->orderBy('showOrder', 'ASC')->limit(4)->get()->getResult();
 
 		return view('frontend/services', $data);
@@ -99,46 +102,53 @@ class Home extends AdminBaseResourceController
 		$ServicesModel = new AdminServices_model();
 		$WorksModel  = new AdminWorks_model();
 
-		$data['navProducts'] = $ProductModel->select('productID, productTitle, productImageUrl, menuProductImageUrl')->orderBy('showOrder', 'ASC')->limit(9)->get()->getResult();
-		$data['navService'] = $ServicesModel->select('serviceID, serviceTitle')->orderBy('showOrder', 'ASC')->get()->getResult();
+		$data['navProducts'] = $ProductModel->where('status', '1')->select('productID, canonicalName, productTitle, productImageUrl, menuProductImageUrl')->orderBy('showOrder', 'ASC')->limit(9)->get()->getResult();
+		$data['navService'] = $ServicesModel->select('serviceID, canonicalName, serviceTitle')->orderBy('showOrder', 'ASC')->get()->getResult();
 		$data['contactDetails'] = $ContactModel->where('contactType', 'main')->select('*')->first();
 
 		$data['worksDetails'] = $WorksModel->distinct()
-			->select("workID, projectTitle, workImageUrl, workTitle")
+			->select("workID, canonicalName, projectTitle, workImageUrl, workTitle")
 			->orderBy('showOrder', 'ASC')
 			->limit(4)->get()->getResult();
 
 		return view('frontend/works', $data);
 	}
 
-	public function projectsdetails($workID)
+	public function projectsdetails($canonicalName)
 	{
 		$ContactModel  = new AdminContact_model();
 		$ProductModel = new AdminProduct_model();
 		$ServicesModel = new AdminServices_model();
 		$WorksModel  = new AdminWorks_model();
 
-		$data['navProducts'] = $ProductModel->select('productID, productTitle, productImageUrl, menuProductImageUrl')->orderBy('showOrder', 'ASC')->limit(9)->get()->getResult();
-		$data['navService'] = $ServicesModel->select('serviceID, serviceTitle')->orderBy('showOrder', 'ASC')->get()->getResult();
+		$data['navProducts'] = $ProductModel->where('status', '1')->select('productID, canonicalName, productTitle, productImageUrl, menuProductImageUrl')->orderBy('showOrder', 'ASC')->limit(9)->get()->getResult();
+		$data['navService'] = $ServicesModel->select('serviceID, canonicalName, serviceTitle')->orderBy('showOrder', 'ASC')->get()->getResult();
 		$data['contactDetails'] = $ContactModel->where('contactType', 'main')->select('*')->first();
 
 		$data['projectsDetails'] = $WorksModel->distinct()
-			->select("OW.workID, OW.workCategoryID, OW.projectTitle, OW.workImageUrl, OW.projectLocation, OW.services, OW.projectType, OW.strategy, OW.workTitle, OW.projectDate, OW.workDescription, OW.workLongDescription, OW.workBnnerImageUrl, OW.twitterLink, OW.faceBookLink, OW.linkedInLink, OW.pinterestLink, WC.categoryName")
+			->select("OW.workID, OW.workCategoryID, OW.canonicalName, OW.projectTitle, OW.workImageUrl, OW.projectLocation, OW.services, OW.projectType, OW.strategy, OW.workTitle, OW.projectDate, OW.workDescription, OW.workLongDescription, OW.workBnnerImageUrl, OW.twitterLink, OW.faceBookLink, OW.linkedInLink, OW.pinterestLink, WC.categoryName")
 			->from('our_works as OW')
 			->join('work_category as WC', 'OW.workCategoryID = WC.categoryID')
-			->where('OW.workID', $workID)
+			->where('OW.canonicalName', $canonicalName)
 			->orderBy('OW.showOrder', 'ASC')
 			->limit(4)->first();
 
-		$data['galleryImages'] = $WorksModel->getGalleryImage($workID);
+		$data['galleryImages'] = [];
+		$data['relatedProjects'] = [];
+		if (isset($data['projectsDetails']) && (!empty($data['projectsDetails'])) && isset($data['projectsDetails']['workID'])) {
+			$data['galleryImages'] = $WorksModel->getGalleryImage($data['projectsDetails']['workID']);
 
-		$data['relatedProjects'] = $WorksModel->distinct()
-			->select("OW.workID, OW.workCategoryID, OW.projectTitle, OW.workImageUrl, WC.categoryName")
-			->from('our_works as OW')
-			->join('work_category as WC', 'OW.workCategoryID = WC.categoryID')
-			->where('OW.workID !=', $workID)
-			->orderBy('OW.showOrder', 'ASC')
-			->limit(2)->get()->getResult();
+			$data['relatedProjects'] = $WorksModel->distinct()
+				->select("OW.workID, OW.workCategoryID, OW.canonicalName, OW.projectTitle, OW.workImageUrl, WC.categoryName")
+				->from('our_works as OW')
+				->join('work_category as WC', 'OW.workCategoryID = WC.categoryID')
+				->where('OW.workID !=', $data['projectsDetails']['workID'])
+				->orderBy('OW.showOrder', 'ASC')
+				->limit(2)->get()->getResult();
+		} else {
+
+			return redirect()->to('../works');
+		}
 
 		// print_r($data['relatedProjects']);
 		// die();
@@ -146,7 +156,7 @@ class Home extends AdminBaseResourceController
 		return view('frontend/projects-details', $data);
 	}
 
-	public function products($productID = null)
+	public function products($canonicalName = null)
 	{
 		$ContactModel  = new AdminContact_model();
 		$ProductModel = new AdminProduct_model();
@@ -154,21 +164,25 @@ class Home extends AdminBaseResourceController
 		$ProductTypesModel = new AdminProductTypes_model();
 		$ProductTypeDetailsModel = new AdminProductTypeDetails_model();
 
-		$data['navProducts'] = $ProductModel->select('productID, productTitle, productImageUrl, menuProductImageUrl')->orderBy('showOrder', 'ASC')->limit(9)->get()->getResult();
-		$data['navService'] = $ServicesModel->select('serviceID, serviceTitle')->orderBy('showOrder', 'ASC')->get()->getResult();
+		$data['navProducts'] = $ProductModel->where('status', '1')->select('productID, canonicalName, productTitle, productImageUrl, menuProductImageUrl')->orderBy('showOrder', 'ASC')->limit(9)->get()->getResult();
+		$data['navService'] = $ServicesModel->select('serviceID, canonicalName, serviceTitle')->orderBy('showOrder', 'ASC')->get()->getResult();
 		$data['contactDetails'] = $ContactModel->where('contactType', 'main')->select('*')->first();
 
 
-		$data['allProducts'] = $ProductModel->select('productID, productTitle, productImageUrl')->orderBy('showOrder', 'ASC')->get()->getResult();
-		$data['productID'] = $productID;
+		$data['allProducts'] = $ProductModel->where('status', '1')->select('productID, canonicalName, productTitle, productImageUrl')->orderBy('showOrder', 'ASC')->get()->getResult();
 
+		$data['productID'] = '';
 		$data['selectedProductID'] = '';
 		$data['productTypeDetails'] = [];
+		$data['canonicalName'] = $canonicalName;
+
 		if (!empty($data['allProducts'])) {
 
-			$data['selectedProductID'] = !empty($productID) ? $productID : $data['allProducts'][0]->productID;
+			$productID = $ProductModel->where('canonicalName', !empty($canonicalName) ? $canonicalName : $data['allProducts'][0]->canonicalName)->select('productID')->first();
+			$data['productID'] = $productID['productID'];
+			$data['selectedProductID'] = !empty($productID) ? $productID['productID'] : $data['allProducts'][0]->productID;
 			$data['productDetails'] = $ProductModel->distinct()
-				->select("P.productID, P.productTypeIDs, P.materialID, P.productTitle, P.productImageUrl, P.productDescription, P.productBannerImageUrl, PM.materialName")
+				->select("P.productID, P.productTypeIDs, P.materialID, P.canonicalName, P.productTitle, P.productImageUrl, P.productDescription, P.productBannerImageUrl, PM.materialName")
 				->from('products as P')
 				->join('product_material as PM', 'P.materialID = PM.materialID')
 				->where('P.productID', $data['selectedProductID'])
@@ -213,8 +227,8 @@ class Home extends AdminBaseResourceController
 		$ServicesModel = new AdminServices_model();
 		$UserContactDetailsModel = new UserContactDetails_model();
 
-		$data['navProducts'] = $ProductModel->select('productID, productTitle, productImageUrl, menuProductImageUrl')->orderBy('showOrder', 'ASC')->limit(9)->get()->getResult();
-		$data['navService'] = $ServicesModel->select('serviceID, serviceTitle')->orderBy('showOrder', 'ASC')->get()->getResult();
+		$data['navProducts'] = $ProductModel->where('status', '1')->select('productID, canonicalName, productTitle, productImageUrl, menuProductImageUrl')->orderBy('showOrder', 'ASC')->limit(9)->get()->getResult();
+		$data['navService'] = $ServicesModel->select('serviceID, canonicalName, serviceTitle')->orderBy('showOrder', 'ASC')->get()->getResult();
 		$data['contactDetails'] = $ContactModel->where('contactType', 'main')->select('*')->first();
 
 		$data['post'] = $_POST;

@@ -15,7 +15,7 @@ class Dashboard extends AdminBaseResourceController
         // die;
         $data = [
         	'title_meta' => view('partials/title-meta', ['title' => 'Dashboard']),
-        	'page_title' => view('partials/page-title', ['title' => 'Dashboard', 'li_1' => 'Minia', 'li_2' => 'Dashboard'])
+        	'page_title' => view('partials/page-title', ['title' => 'Dashboard', 'li_1' => 'Unilam', 'li_2' => 'Dashboard'])
         ];
 
         return view('dashboard', $data);

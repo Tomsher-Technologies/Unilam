@@ -18,10 +18,9 @@ class Products extends AdminBaseResourceController
             'page_title' => view('partials/page-title', ['title' => 'Products', 'li_1' => 'Unilam', 'li_2' => 'Product'])
         ];
         $data['productDetails'] = $this->model
-            ->distinct()->select('P.productID, P.productTypeIDs, P.productTitle, P.productImageUrl, P.productBannerImageUrl, P.status, P.createdOn, PM.materialName')
+            ->distinct()->select('P.productID, P.productTypeIDs, P.canonicalName, P.productTitle, P.productImageUrl, P.productBannerImageUrl, P.status, P.createdOn, PM.materialName')
             ->from('products as P')
             ->join('product_material as PM', 'P.materialID = PM.materialID')
-            ->where('P.status', '1')
             ->findAll();
         //     echo $this->model->getLastQuery()->getQuery();die();
         // print_r($data['productDetails']);
@@ -59,7 +58,7 @@ class Products extends AdminBaseResourceController
         }
     }
 
-    public function editproduct($productID = null)
+    public function editproduct($canonicalName = null)
     {
         $session = session();
         $AdminProductTypesModel = new AdminProductTypes_model();
@@ -69,20 +68,23 @@ class Products extends AdminBaseResourceController
             'page_title' => view('partials/page-title', ['title' => 'Edit Product', 'li_1' => 'Product', 'li_2' => 'Edit Product'])
         ];
 
-        $data['gallaryImages'] = $this->model->getGalleryImage($productID);
+        $data['post'] = $this->model->where('canonicalName', $canonicalName)->first();
 
-        $data['productTypes'] = $AdminProductTypesModel->select('')->get()->getResultArray();
-        $data['productMaterials'] = $AdminProductMaterialModel->select('')->get()->getResultArray();
-        $data['post'] = $this->model->where('productID', $productID)->first();
+        if ((isset($data['post'])) && (!empty($data['post']))) {
 
-        if (($this->request->getMethod() === 'post') && !empty($productID)) {
-            if (!empty($data['post'])) {
+            $data['gallaryImages'] = $this->model->getGalleryImage($data['post']['productID']);
 
-                $response =  $this->manageproduct($productID);
+            $data['productTypes'] = $AdminProductTypesModel->select('')->get()->getResultArray();
+            $data['productMaterials'] = $AdminProductMaterialModel->select('')->get()->getResultArray();
+            $data['canonicalName'] = $canonicalName;
+
+            if (($this->request->getMethod() === 'post') && !empty($canonicalName)) {
+
+                $response =  $this->manageproduct($data['post']['productID']);
                 if ($response === 'Success') {
                     $session->setFlashdata('successMessage', 'Successfully updated Product');
 
-                    if (!empty($productID)) {
+                    if (!empty($canonicalName)) {
 
                         return redirect()->to('../admin/products');
                     } else {
@@ -93,11 +95,11 @@ class Products extends AdminBaseResourceController
                     return view('manage-product', $data);
                 }
             } else {
-                $session->setFlashdata('errorMessage', 'This Product not found!');
                 return view('manage-product', $data);
             }
         } else {
-            return view('manage-product', $data);
+            $session->setFlashdata('errorMessage', 'This Product not found!');
+            return redirect()->to('../admin/products');
         }
     }
 
@@ -115,11 +117,17 @@ class Products extends AdminBaseResourceController
         $data['gallaryImages'] = $this->model->getGalleryImage($productID);
         $productDetails =   $this->model->where('productID', $productID)->first();
         if ($this->validateInput($productID)) {
+            $canonName = strtolower($this->request->getVar('productTitle'));
+            $canonicalName = str_replace(' ', '-', $canonName); // Replaces all spaces with hyphens.
+            $canonicalName = preg_replace('/[^A-Za-z0-9\-]/', '', $canonicalName); // Removes special chars.
+            $cann = preg_replace('/-+/', '-', $canonicalName);
+
             if (!empty($productID)) {
                 $productDetails = $this->model->where('productID', $productID)->first();
                 if (!empty($productDetails)) {
 
                     $updateData = [
+                        'canonicalName' => $cann . '-' . $productID,
                         'productTitle' => $this->request->getVar('productTitle'),
                         'productDescription' => $this->request->getVar('productDescription'),
                         'productBannerImageUrl' =>  $this->insertProductImage("bannerImage", $this->request->getVar('productBannerImageUrl')),
@@ -128,11 +136,13 @@ class Products extends AdminBaseResourceController
                         'productTypeIDs' => $this->request->getVar('productTypeIDs'),
                         'materialID' => $this->request->getVar('materialID'),
                         'status' => $this->request->getVar('status'),
+                        'showOrder' => !empty($this->request->getVar('showOrder')) ? $this->request->getVar('showOrder') :  $this->getNextShowOrder($this->model),
                         'statusOn' => date('Y-m-d H:i:s'),
                         'updatedOn' => date('Y-m-d H:i:s'),
                     ];
 
                     $this->model->update($productID, $updateData);
+                    // echo $this->model->getLastQuery()->getQuery();die();
                     $this->insertGalleryImages($productID);
 
                     return 'Success';
@@ -150,6 +160,7 @@ class Products extends AdminBaseResourceController
                     'menuProductImageUrl' => $this->insertProductImage("menuProductImage"),
                     'productTypeIDs' => $this->request->getVar('productTypeIDs'),
                     'materialID' => $this->request->getVar('materialID'),
+                    'showOrder' => !empty($this->request->getVar('showOrder')) ? $this->request->getVar('showOrder') :  $this->getNextShowOrder($this->model),
                     'status' => $this->request->getVar('status'),
                     'statusOn' => date('Y-m-d H:i:s'),
                     'createdOn' => date('Y-m-d H:i:s'),
@@ -160,6 +171,8 @@ class Products extends AdminBaseResourceController
 
                 $productID =  $this->model->insertID();
                 if ($productID) {
+
+                    $this->model->update($productID, ['canonicalName' => $cann . '-' . $productID]);
 
                     $this->insertGalleryImages($productID);
 
@@ -176,7 +189,7 @@ class Products extends AdminBaseResourceController
         }
     }
 
-    public function manageproducttypes($productID)
+    public function manageproducttypes($canonicalName)
     {
         $session = session();
         $AdminProductTypesModel = new AdminProductTypes_model();
@@ -186,15 +199,16 @@ class Products extends AdminBaseResourceController
             'page_title' => view('partials/page-title', ['title' => 'Edit Product Type Details', 'li_1' => 'Product', 'li_2' => 'Edit Product Type Details'])
         ];
 
-        $data['post'] = $this->model->where('productID', $productID)->first();
-        $data['gallaryImages'] = $this->model->getGalleryImage($productID);
+        $data['post'] = $this->model->where('canonicalName', $canonicalName)->first();
+
+        $data['gallaryImages'] = $this->model->getGalleryImage($data['post']['productID']);
 
         $data['productTypes'] = $AdminProductTypesModel->select('')->get()->getResultArray();
         if (!empty($data['productTypes'])) {
 
             $productTypeIDs =  explode(',', $data['post']['productTypeIDs']);
             $data['productTypesDetails'] = $AdminProductTypeDetailsModel->select('typeDetailID, productTypeID, typeDetailTitle, typeDetailImageUrl')
-                ->where('productID', $productID)
+                ->where('productID', $data['post']['productID'])
                 ->whereIn('productTypeID', $productTypeIDs)->get()->getResult();
             // echo $AdminProductTypeDetailsModel->getLastQuery()->getQuery();die();
             // print_r($data['productTypesDetails']);
@@ -202,15 +216,16 @@ class Products extends AdminBaseResourceController
             // echo ;die;
         }
 
-        if (($this->request->getMethod() === 'post') && !empty($productID)) {
-
+        if (($this->request->getMethod() === 'post') && !empty($data['post']['productID'])) {
             $combinedData = [];
+            // echo '<pre>';
+            // print_r($_POST);    die;
             if (isset($_POST['productTypeID']) && isset($_FILES['typeDetailImage']) && !empty($_POST['productTypeID']) && !empty($_FILES['typeDetailImage']) && (count($_POST['productTypeID']) === count($_FILES['typeDetailImage']['name']))) {
                 $count = count($_POST['productTypeID']);
                 for ($i = 0; $i < $count; $i++) {
                     // echo $_POST['typeDetailImageUrl'][$i];die;
                     $combinedData[] = [
-                        'typeDetailID' => $_POST['typeDetailID'][$i],
+                        'typeDetailID' => $_POST['typeDetailID'][$i] != 0 ? $_POST['typeDetailID'][$i] : '',
                         'productTypeID' => $_POST['productTypeID'][$i],
                         'typeDetailTitle' => $_POST['typeDetailTitle'][$i],
                         'typeDetailImageUrl' => $_POST['typeDetailImageUrl'][$i],
@@ -229,6 +244,11 @@ class Products extends AdminBaseResourceController
                 // print_r($combinedData);    die;
                 if (!empty($combinedData)) {
                     foreach ($combinedData as $combinedData_row) {
+                        $canonName = strtolower($combinedData_row['typeDetailTitle']);
+                        $canonicalName = str_replace(' ', '-', $canonName); // Replaces all spaces with hyphens.
+                        $canonicalName = preg_replace('/[^A-Za-z0-9\-]/', '', $canonicalName); // Removes special chars.
+                        $cann = preg_replace('/-+/', '-', $canonicalName);
+
                         if (!empty($combinedData_row['typeDetailID'])) {
 
                             $imageUrl = '';
@@ -239,7 +259,8 @@ class Products extends AdminBaseResourceController
                             }
 
                             $updateData = [
-                                'productID' => $productID,
+                                'productID' => $data['post']['productID'],
+                                'canonicalName' => $cann . '-' . $combinedData_row['typeDetailID'],
                                 'productTypeID' => $combinedData_row['productTypeID'],
                                 'typeDetailTitle' => $combinedData_row['typeDetailTitle'],
                                 'typeDetailImageUrl' => $imageUrl
@@ -249,12 +270,16 @@ class Products extends AdminBaseResourceController
                         } else {
                             // echo "here";die;
                             $insertData = [
-                                'productID' => $productID,
+                                'productID' => $data['post']['productID'],
                                 'productTypeID' => $combinedData_row['productTypeID'],
                                 'typeDetailTitle' => $combinedData_row['typeDetailTitle'],
                                 'typeDetailImageUrl' => $this->insertproducttypeimages($combinedData_row['typeDetailImage'], $combinedData_row['productTypeID'])
                             ];
                             $AdminProductTypeDetailsModel->insert($insertData);
+
+                            $typeDetailID =  $AdminProductTypeDetailsModel->insertID();
+                            $AdminProductTypeDetailsModel->update($typeDetailID, ['canonicalName' => $cann . '-' . $typeDetailID]);
+
                         }
                     }
                     $session->setFlashdata('successMessage', 'Successfully updated product type details');

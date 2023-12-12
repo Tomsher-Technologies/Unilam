@@ -10,7 +10,7 @@ class AdminWorks_model extends AdminBaseModel
     protected $table = 'our_works';
     protected $primaryKey = 'workID';
     protected $allowedFields = [
-        'workTitle', 'projectTitle', 'workImageUrl', 'projectLocation', 'services', 'projectType', 'strategy', 'projectDate', 'workDescription', 'workLongDescription', 'workBnnerImageUrl', 'twitterLink', 'faceBookLink', 'linkedInLink', 'pinterestLink', 'showOrder', 'status', 'statusOn', 'createdOn', 'updatedOn'
+        'canonicalName', 'workTitle', 'projectTitle', 'workImageUrl', 'projectLocation', 'services', 'projectType', 'strategy', 'projectDate', 'workDescription', 'workLongDescription', 'workBnnerImageUrl', 'twitterLink', 'faceBookLink', 'linkedInLink', 'pinterestLink', 'showOrder', 'status', 'statusOn', 'createdOn', 'updatedOn'
     ];
 
     public function getGalleryImage($workID = null, $cnt = false, $page = 0, $limit = AdminPageSize, $conditions = array(), $sortby = null)

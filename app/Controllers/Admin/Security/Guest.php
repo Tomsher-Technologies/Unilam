@@ -39,9 +39,9 @@ class Guest extends AdminBaseResourceController
         if ($this->validateInput()) {
             $email = $this->request->getVar('email');
             $password = $this->request->getVar('password');
-
-            $data = $this->model->where('email', $email)->where('password', $password)->where('status', 1)->first();
-
+            
+            $data = $this->model->where('email', $email)->where('password', \md5($password))->where('status', 1)->first();
+       
             if ($data) {
 
                 $this->model->where('email', $email)->first();

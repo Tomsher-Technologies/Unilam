@@ -18,8 +18,8 @@
           </div>
       </div>
   </div>
-  <?php if (isset($serviceDetails) && !empty($serviceDetails)) : ?>
-      <?php if (isset($serviceDetails['serviceHeadLine'])) : ?>
+  <?php  if(isset($serviceDetails) && !empty($serviceDetails)) : ?>
+      <?php /* if (isset($serviceDetails['serviceHeadLine'])) : ?>
           <section class="services-single">
               <div class="container">
                   <div class="row">
@@ -37,7 +37,7 @@
                   </div>
               </div>
           </section>
-      <?php endif; ?>
+      <?php endif; */ ?>
       <?php if (isset($serviceDetails['serviceHeadLine2'])) : ?>
           <section class="skill-4 p-md-0 pb-0">
               <div class="container-fluid">

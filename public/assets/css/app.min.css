@@ -52,7 +52,7 @@ body[data-layout-mode=dark] h6 {
 .navbar-brand-box {
     padding: 0 1.5rem;
     width: 250px;
-    background: #fbfaff;
+    background: #959596;
     border-right: 1px solid #e9e9ef;
     -webkit-box-shadow: 0 2px 2px #fbfaff;
     box-shadow: 0 2px 2px #fbfaff
@@ -139,7 +139,8 @@ body[data-layout-mode=dark] .layout-mode-light {
     }
 
     .logo span.logo-lg {
-        display: none
+        display: none;
+        position: relative;
     }
 
     .logo span.logo-sm {
@@ -791,7 +792,7 @@ body[data-sidebar-size=sm] .navbar-brand-box {
 }
 
 body[data-sidebar-size=sm] .logo span.logo-lg {
-    display: none
+    display: none;
 }
 
 body[data-sidebar-size=sm] .logo span.logo-sm {

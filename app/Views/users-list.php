@@ -24,115 +24,111 @@
 
 <?= $this->include('partials/body') ?>
 
-<!-- Begin page -->
-<div id="layout-wrapper">
+<body>
+    <div id="layout-wrapper">
 
-    <?= $this->include('partials/menu') ?>
+        <?= $this->include('partials/menu') ?>
 
-    <!-- ============================================================== -->
-    <!-- Start right Content here -->
-    <!-- ============================================================== -->
-    <div class="main-content">
+        <div class="main-content">
 
-        <div class="page-content">
-            <div class="container-fluid">
-                <!-- start page title -->
-                <div class="row">
-                    <div class="col-12">
-                        <div class="page-title-box d-flex align-items-center justify-content-between">
-                            <h4 class="page-title mb-0 font-size-18"><?= $title ? $title : '' ?></h4>
+            <div class="page-content">
+                <div class="container-fluid">
+                    <!-- start page title -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="page-title-box d-flex align-items-center justify-content-between">
+                                <h4 class="page-title mb-0 font-size-18"><?= $title ? $title : '' ?></h4>
 
-                            <div class="page-title-right">
-                                <ol class="breadcrumb m-0">
-                                    <a href="create-user"> <button type="button" class="btn btn-secondary waves-effect waves-light">Create</button></a>
+                                <div class="page-title-right">
+                                    <ol class="breadcrumb m-0">
+                                        <a href="create-user"> <button type="button" class="btn btn-secondary waves-effect waves-light">Create</button></a>
 
-                                </ol>
+                                    </ol>
+                                </div>
+
                             </div>
-
                         </div>
                     </div>
-                </div>
-                <!-- end page title -->
+                    <!-- end page title -->
 
-                <div class="row">
-                    <div class="col-xl-12">
-                        <div class="card">
-                            <?php if (isset($_SESSION['successMessage']) && !empty($_SESSION['successMessage'])) : ?>
-                                <div class="alert alert-success alert-dismissible alert-label-icon label-arrow fade show" role="alert">
-                                    <i class="mdi mdi-check-all label-icon"></i><strong>Success</strong> - <?= $_SESSION['successMessage']; ?>
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="card">
+                                <?php if (isset($_SESSION['successMessage']) && !empty($_SESSION['successMessage'])) : ?>
+                                    <div class="alert alert-success alert-dismissible alert-label-icon label-arrow fade show" role="alert">
+                                        <i class="mdi mdi-check-all label-icon"></i><strong>Success</strong> - <?= $_SESSION['successMessage']; ?>
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                <?php endif; ?>
+                                <?php if (isset($_SESSION['errorMessage']) && !empty($_SESSION['errorMessage'])) : ?>
+                                    <div class="alert alert-danger alert-dismissible alert-label-icon label-arrow fade show" role="alert">
+                                        <i class="mdi mdi-block-helper label-icon"></i><strong>Error</strong> - <?= $_SESSION['errorMessage']; ?>
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                <?php endif; ?>
+                                <div class="card-header">
+                                    <h4 class="card-title">User type lists</h4>
                                 </div>
-                            <?php endif; ?>
-                            <?php if (isset($_SESSION['errorMessage']) && !empty($_SESSION['errorMessage'])) : ?>
-                                <div class="alert alert-danger alert-dismissible alert-label-icon label-arrow fade show" role="alert">
-                                    <i class="mdi mdi-block-helper label-icon"></i><strong>Error</strong> - <?= $_SESSION['errorMessage']; ?>
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table mb-0">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Name</th>
+                                                    <th>Email</th>
+                                                    <th>User Type</th>
+                                                    <th>Created On</th>
+                                                    <th>Tools</th>
+                                                </tr>
+                                            </thead>
+                                            <?php if (isset($userDetails) && !empty($userDetails)) : ?>
+                                                <tbody>
+                                                    <?php $rowNumber = 1; ?>
+                                                    <?php foreach ($userDetails as $userDetails_row) {; ?>
+                                                        <tr>
+                                                            <th scope="row"><?= $rowNumber++; ?></th>
+                                                            <td> <?= $userDetails_row->name; ?></td>
+                                                            <td> <?= $userDetails_row->email; ?></td>
+                                                            <td> <?= $userDetails_row->userType; ?></td>
+                                                            <td>
+                                                                <?= DateTime::createFromFormat('Y-m-d H:i:s', $userDetails_row->createdOn)->format('Y-m-d'); ?>
+                                                            </td>
+                                                            <td>
+                                                                <div class="tools">
+                                                                    <a href="edit-user/<?= $userDetails_row->canonicalName; ?>">
+                                                                        <i class="mdi mdi-pencil"></i>
+                                                                    </a>
+                                                                    <a class="deleteButton" href="delete-user/<?= $userDetails_row->userID; ?>">
+                                                                        <i class="mdi mdi-trash-can"></i>
+                                                                    </a>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    <?php } ?>
+                                                </tbody>
+                                            <?php endif; ?>
+                                        </table>
+                                    </div>
                                 </div>
-                            <?php endif; ?>
-                            <div class="card-header">
-                                <h4 class="card-title">User type lists</h4>
+                                <!-- end card body -->
                             </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-
-                                    <table class="table mb-0">
-
-                                        <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Name</th>
-                                                <th>Email</th>
-                                                <th>User Type</th>
-                                                <th>Created On</th>
-                                                <th>Tools</th>
-                                            </tr>
-                                        </thead>
-                                        <?php if (isset($userDetails) && !empty($userDetails)) : ?>
-                                            <tbody>
-                                                <?php $rowNumber = 1; ?>
-                                                <?php foreach ($userDetails as $userDetails_row) {; ?>
-                                                    <tr>
-                                                        <th scope="row"><?= $rowNumber++; ?></th>
-                                                        <td> <?= $userDetails_row->name; ?></td>
-                                                        <td> <?= $userDetails_row->email; ?></td>
-                                                        <td> <?= $userDetails_row->userType; ?></td>
-                                                        <td>
-                                                            <?= DateTime::createFromFormat('Y-m-d H:i:s', $userDetails_row->createdOn)->format('Y-m-d'); ?>
-                                                        </td>
-                                                        <td>
-                                                            <div class="tools">
-                                                                <a href="edit-user/<?= $userDetails_row->userID; ?>">
-                                                                    <i class="mdi mdi-pencil"></i>
-                                                                </a>
-                                                                <a class="deleteButton" href="delete-user/<?= $userDetails_row->userID; ?>">
-                                                                    <i class="mdi mdi-trash-can"></i>
-                                                                </a>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                <?php } ?>
-                                            </tbody>
-                                        <?php endif; ?>
-                                    </table>
-                                </div>
-                            </div>
-                            <!-- end card body -->
+                            <!-- end card -->
                         </div>
-                        <!-- end card -->
                     </div>
+
+
                 </div>
-
-
             </div>
+            <!-- End Page-content -->
+
+            <?= $this->include('partials/footer') ?>
         </div>
-        <!-- End Page-content -->
+        <!-- end main content-->
 
-        <?= $this->include('partials/footer') ?>
     </div>
-    <!-- end main content-->
+</body>
 
-</div>
-<!-- END layout-wrapper -->
 <script>
     $(document).ready(function() {
         $(".deleteButton").on("click", function(event) {
@@ -152,6 +148,6 @@
 <?= $this->include('partials/vendor-scripts') ?>
 <script src="<?= base_url('public/assets/js/app.js') ?>"></script>
 <script src="<?= base_url('public/assets/js/pages/form-advanced.init.js') ?>"></script>
-</body>
+
 
 </html>

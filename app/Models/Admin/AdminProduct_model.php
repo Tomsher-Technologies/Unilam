@@ -10,7 +10,7 @@ class AdminProduct_model extends AdminBaseModel
     protected $table = 'products';
     protected $primaryKey = 'productID';
     protected $allowedFields = [
-        'productTypeIDs', 'materialID', 'productTitle', 'productDescription', 'productImageUrl', 'productBannerImageUrl', 'menuProductImageUrl', 'showOrder', 'status', 'statusOn', 'createdOn', 'updatedOn'
+         'productTypeIDs', 'materialID', 'canonicalName', 'productTitle', 'productDescription', 'productImageUrl', 'productBannerImageUrl', 'menuProductImageUrl', 'showOrder', 'status', 'statusOn', 'createdOn', 'updatedOn'
     ];
 
     public function getGalleryImage($productID = null, $cnt = false, $page = 0, $limit = AdminPageSize, $conditions = array(), $sortby = null)

@@ -9,6 +9,6 @@ class AdminBanner_model extends AdminBaseModel
     protected $table = 'banners';
     protected $primaryKey = 'bannerID';
     protected $allowedFields = [
-        'bannerHeading', 'bannerTitle', 'bannerUrl', 'bannerFileUrl', 'bannerDescription', 'showOrder', 'status', 'statusOn', 'createdOn', 'updatedOn'
+        'canonicalName', 'bannerHeading', 'bannerTitle', 'bannerUrl', 'bannerFileUrl', 'bannerDescription', 'showOrder', 'status', 'statusOn', 'createdOn', 'updatedOn'
     ];
 }

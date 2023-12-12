@@ -14,7 +14,7 @@
     <?= $this->include('partials/body') ?>
     <div id="layout-wrapper">
         <?php
-        if (isset($post['contactID'])) {
+        if (isset($post['canonicalName'])) {
             echo $this->include('partials/menudoubleback');
         } else {
             echo $this->include('partials/menu');
@@ -34,7 +34,7 @@
 
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
-                                        <li class="breadcrumb-item"><a href="<?= isset($post['contactID']) ? '../contacts' : '../admin/contacts'; ?>">Abouts</a></li>
+                                        <li class="breadcrumb-item"><a href="<?= isset($post['canonicalName']) ? '../contacts' : '../admin/contacts'; ?>">Abouts</a></li>
                                         <?php if (isset($li_2)) :  ?>
                                             <li class="breadcrumb-item active"><?= $li_2 ?></li>
                                         <?php endif ?>
@@ -49,7 +49,7 @@
                     <div class="row">
                         <div class="col-xl-12">
                             <div class="card">
-                                <form class="needs-validation p-5 custom-form mt-4 pt-2" method="POST" action="<?= isset($post['contactID']) ? base_url("admin/edit-contact/{$post['contactID']}") : base_url('admin/create-contact'); ?>" enctype="multipart/form-data">
+                                <form class="needs-validation p-5 custom-form mt-4 pt-2" method="POST" action="<?= isset($post['canonicalName']) ? base_url("admin/edit-contact/{$post['canonicalName']}") : base_url('admin/create-contact'); ?>" enctype="multipart/form-data">
                                     <div class="row">
                                         <div class="mb-3 col-md-6 ">
                                             <label class="form-label">Banner Title</label>
@@ -151,7 +151,15 @@
                                                 </small>
                                             <?php endif; ?>
                                         </div>
-                                        <!-- 1 -->
+                                        <div class="mb-3 col-md-6 ">
+                                            <label class="form-label">Email 2</label>
+                                            <input type="email" name="email2" class="form-control" id="email2" placeholder="Enter world wide office" value="<?= isset($post['email2']) ? $post['email2'] : ''; ?>">
+                                            <?php if (isset($validation) && isset($validation['email2'])) : ?>
+                                                <small class="text-danger">
+                                                    <?= esc($validation['email2']) ?>
+                                                </small>
+                                            <?php endif; ?>
+                                        </div>
 
                                         <div class="mb-3 col-md-6 ">
                                             <label class="form-label">Address</label>

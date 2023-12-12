@@ -41,22 +41,22 @@ class Features extends AdminBaseResourceController
         }
     }
 
-    public function editfeature($featureID = null)
+    public function editfeature($canonicalName = null)
     {
         $session = session();
 
         $data = [
             'page_title' => view('partials/page-title', ['title' => 'Edit Features', 'li_1' => 'Features', 'li_2' => 'Edit Feature'])
         ];
-        $data['post'] = $this->model->where('featureID', $featureID)->where('status', 1)->first();
+        $data['post'] = $this->model->where('canonicalName', $canonicalName)->first();
 
-        if (($this->request->getMethod() === 'post') && !empty($featureID)) {
+        if (($this->request->getMethod() === 'post') && !empty($canonicalName)) {
             if (!empty($data['post'])) {
 
-                $response =  $this->managefeature($featureID);
+                $response =  $this->managefeature($data['post']['featureID']);
                 if ($response === 'Success') {
                     $session->setFlashdata('successMessage', 'Successfully updated feature');
-                    if (!empty($featureID)) {
+                    if (!empty($canonicalName)) {
 
                         return redirect()->to('../admin/features-lists');
                     } else {
@@ -83,12 +83,18 @@ class Features extends AdminBaseResourceController
         $data['post'] = $_POST;
 
         if ($this->validateInput($featureID)) {
+            $canonName = strtolower($this->request->getVar('featureTitle'));
+            $canonicalName = str_replace(' ', '-', $canonName); // Replaces all spaces with hyphens.
+            $canonicalName = preg_replace('/[^A-Za-z0-9\-]/', '', $canonicalName); // Removes special chars.
+            $cann = preg_replace('/-+/', '-', $canonicalName);
             if (!empty($featureID)) {
 
                 $updateData = [
+                    'canonicalName' => $cann . '-' . $featureID,
                     'featureTitle' => $this->request->getVar('featureTitle'),
                     'featureDescription' => $this->request->getVar('featureDescription'),
                     'featureIconUrl' => $this->handleUploadImage("featureIcon", 'featureIcon', '', $this->request->getVar('featureIconUrl')),
+                    'showOrder' => !empty($this->request->getVar('showOrder')) ? $this->request->getVar('showOrder') :  $this->getNextShowOrder($this->model),
                     'updatedOn' => date('Y-m-d H:i:s'),
                 ];
 
@@ -99,6 +105,7 @@ class Features extends AdminBaseResourceController
                     'featureTitle' => $this->request->getVar('featureTitle'),
                     'featureDescription' => $this->request->getVar('featureDescription'),
                     'featureIconUrl' => $this->handleUploadImage("featureIcon", 'featureIcon', '', 'defaultUrl'),
+                    'showOrder' => !empty($this->request->getVar('showOrder')) ? $this->request->getVar('showOrder') :  $this->getNextShowOrder($this->model),
                     'status' => '1',
                     'statusOn' => date('Y-m-d H:i:s'),
                     'createdOn' => date('Y-m-d H:i:s'),
@@ -109,6 +116,8 @@ class Features extends AdminBaseResourceController
 
                 $featureID =  $this->model->insertID();
                 if ($featureID) {
+
+                    $this->model->update($featureID, ['canonicalName' => $cann . '-' . $featureID]);
 
                     return 'Success';
                 } else {

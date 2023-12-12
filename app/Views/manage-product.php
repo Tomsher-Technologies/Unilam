@@ -23,7 +23,7 @@
 
 <div id="layout-wrapper">
     <?php
-    if (isset($post['productID'])) {
+    if (isset($post['canonicalName'])) {
         echo  $this->include('partials/menudoubleback');
     } else {
         echo     $this->include('partials/menu');
@@ -43,7 +43,7 @@
 
                             <div class="page-title-right">
                                 <ol class="breadcrumb m-0">
-                                    <li class="breadcrumb-item"><a href="<?= isset($post['productID']) ? "../products" : "../admin/products"; ?>">Product Types</a></li>
+                                    <li class="breadcrumb-item"><a href="<?= isset($post['canonicalName']) ? "../products" : "../admin/products"; ?>">Product Types</a></li>
                                     <?php if (isset($li_2)) :  ?>
                                         <li class="breadcrumb-item active"><?= $li_2 ?></li>
                                     <?php endif ?>
@@ -58,36 +58,37 @@
                 <div class="row">
                     <div class="col-xl-12">
                         <div class="card">
-                            <form class="needs-validation p-5 custom-form mt-4 pt-2" method="POST" action="<?= isset($post['productID']) ? base_url("admin/edit-product/{$post['productID']}") : base_url('admin/create-product'); ?>" enctype="multipart/form-data" novalidate>
-                                <div class="mb-3">
-                                    <label class="form-label">Product Title </label>
-                                    <input type="text" name="productTitle" class="form-control" id="productTitle" placeholder="Enter product title" value="<?= isset($post['productTitle']) ? $post['productTitle'] : ''; ?>" required>
-                                    <?php if (isset($validation) && isset($validation['productTitle'])) : ?>
-                                        <small class="text-danger">
-                                            <?= esc($validation['productTitle']) ?>
-                                        </small>
-                                    <?php endif; ?>
-                                </div>
-
+                            <form class="needs-validation p-5 custom-form mt-4 pt-2" method="POST" action="<?= isset($post['canonicalName']) ? base_url("admin/edit-product/{$post['canonicalName']}") : base_url('admin/create-product'); ?>" enctype="multipart/form-data" novalidate>
                                 <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="card">
-                                            <div class="card-header">
-                                                <h4 class="card-title">Product Descrption </h4>
-                                            </div>
-                                            <div class="card-body">
-                                                <div id="ckeditor-classic"></div>
-                                                <input type="hidden" value="<?= isset($post['productDescription']) ? $post['productDescription'] : '' ?>" id="productDescription" name="productDescription">
-                                                <?php if (isset($validation) && isset($validation['productDescription'])) : ?>
-                                                    <small class="text-danger">
-                                                        <?= esc($validation['productDescription']) ?>
-                                                    </small>
-                                                <?php endif; ?>
+                                    <div class="col-md-12 mb-3">
+                                        <label class="form-label">Product Title </label>
+                                        <input type="text" name="productTitle" class="form-control" id="productTitle" placeholder="Enter product title" value="<?= isset($post['productTitle']) ? $post['productTitle'] : ''; ?>" required>
+                                        <?php if (isset($validation) && isset($validation['productTitle'])) : ?>
+                                            <small class="text-danger">
+                                                <?= esc($validation['productTitle']) ?>
+                                            </small>
+                                        <?php endif; ?>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <h4 class="card-title">Product Descrption </h4>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div id="ckeditor-classic"></div>
+                                                    <input type="hidden" value="<?= isset($post['productDescription']) ? $post['productDescription'] : '' ?>" id="productDescription" name="productDescription">
+                                                    <?php if (isset($validation) && isset($validation['productDescription'])) : ?>
+                                                        <small class="text-danger">
+                                                            <?= esc($validation['productDescription']) ?>
+                                                        </small>
+                                                    <?php endif; ?>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
+
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label for="productTypeSelected" class="form-label font-size-13 text-muted">Product Types</label>
@@ -124,110 +125,114 @@
                                             <?php endif; ?>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">Product Status</label>
-                                    <select class="form-select" name="status" aria-label="Default select example">
-                                        <option value="1" <?= (!isset($post['status']) || $post['status'] == '1') ? 'selected' : '' ?>>Enabled</option>
-                                        <option value="2" <?= (isset($post['status']) && $post['status'] == '2') ? 'selected' : '' ?>>Disabled</option>
-                                    </select>
-                                    <?php if (isset($validation) && isset($validation['status'])) : ?>
-                                        <small class="text-danger">
-                                            <?= esc($validation['status']) ?>
-                                        </small>
-                                    <?php endif; ?>
-                                </div>
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="card">
-                                            <div class="card-header">
-                                                <h4 class="card-title">Product Image</h4>
-                                            </div>
-                                            <div class="card-body">
-                                                <?php if (isset($post) && isset($post['productImageUrl'])) : ?>
-                                                    <div class="row mb-3">
-                                                        <div class="col-md-6">
-                                                            <img class="rounded me-2" id="previewProductImage" alt="200x200" width="200" src="<?= base_url($post['productImageUrl']) ?>" data-holder-rendered="true">
-                                                        </div>
-                                                    </div>
-                                                <?php endif; ?>
-
-                                                <div class="col-auto">
-                                                    <input type="file" name="productImage" class=" form-control" id="productImageInput" onchange="previewProductImage(event)">
-                                                    <input type="hidden" value="<?= isset($post['productImageUrl']) ? $post['productImageUrl'] : '' ?>" name="productImageUrl" class=" form-control">
-                                                </div>
-
-                                            </div>
-                                        </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Product Status</label>
+                                        <select class="form-select" name="status" aria-label="Default select example">
+                                            <option value="1" <?= (!isset($post['status']) || $post['status'] == '1') ? 'selected' : '' ?>>Enabled</option>
+                                            <option value="2" <?= (isset($post['status']) && $post['status'] == '2') ? 'selected' : '' ?>>Disabled</option>
+                                        </select>
+                                        <?php if (isset($validation) && isset($validation['status'])) : ?>
+                                            <small class="text-danger">
+                                                <?= esc($validation['status']) ?>
+                                            </small>
+                                        <?php endif; ?>
                                     </div>
-                                    <div class="col-12">
-                                        <div class="card">
-                                            <div class="card-header">
-                                                <h4 class="card-title">Product Menu Image</h4>
-                                            </div>
-                                            <div class="card-body">
-                                                <?php if (isset($post) && isset($post['menuProductImageUrl'])) : ?>
-                                                    <div class="row mb-3">
-                                                        <div class="col-md-6">
-                                                            <img class="rounded me-2" id="previewmenuProductImage" alt="200x200" width="200" src="<?= base_url($post['menuProductImageUrl']) ?>" data-holder-rendered="true">
-                                                        </div>
-                                                    </div>
-                                                <?php endif; ?>
-
-                                                <div class="col-auto">
-                                                    <input type="file" name="menuProductImage" class=" form-control" id="productImageInput" onchange="previewmenuProductImage(event)">
-                                                    <input type="hidden" value="<?= isset($post['menuProductImageUrl']) ? $post['menuProductImageUrl'] : '' ?>" name="menuProductImageUrl" class=" form-control">
-                                                </div>
-
-                                            </div>
-                                        </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Show Order</label>
+                                        <input type="number" name="showOrder" class="form-control" id="showOrder" placeholder="Enter show order" value="<?= isset($post['showOrder']) ? $post['showOrder'] : ''; ?>" >
                                     </div>
-                                    <div class="col-12">
-                                        <div class="card">
-                                            <div class="card-header">
-                                                <h4 class="card-title">Banner Image</h4>
-                                            </div>
-                                            <div class="card-body">
-                                                <?php if (isset($post) && isset($post['productBannerImageUrl'])) : ?>
-                                                    <div class="row mb-3">
-                                                        <div class="col-md-6">
-                                                            <img class="rounded me-2" id="bannerPreview" alt="200x200" width="200" src="<?= base_url($post['productBannerImageUrl']) ?>" data-holder-rendered="true">
-                                                        </div>
-                                                    </div>
-                                                <?php endif; ?>
-
-                                                <div class="col-auto">
-                                                    <input type="file" name="bannerImage" class=" form-control" id="bannerImageInput" onchange="previewImage(event)">
-                                                    <input type="hidden" value="<?= isset($post['productBannerImageUrl']) ? $post['productBannerImageUrl'] : '' ?>" name="productBannerImageUrl" class=" form-control">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <h4 class="card-title">Product Image</h4>
                                                 </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="card">
-                                            <div class="card-header">
-                                                <h4 class="card-title">Gallary Image</h4>
-                                            </div>
-                                            <div class="card-body">
-                                                <?php if (isset($gallaryImages) && isset($gallaryImages)) : ?>
-                                                    <div class="row">
-                                                        <?php foreach ($gallaryImages as $gallaryImage_row) : ?>
-                                                            <div class="col-md-3  mb-3">
-                                                                <img class="rounded me-2" alt="200x200" width="200" src="<?= base_url($gallaryImage_row->gallaryImageUrl) ?>" data-holder-rendered="true">
+                                                <div class="card-body">
+                                                    <?php if (isset($post) && isset($post['productImageUrl'])) : ?>
+                                                        <div class="row mb-3">
+                                                            <div class="col-md-6">
+                                                                <img class="rounded me-2" id="previewProductImage" alt="200x200" width="200" src="<?= base_url($post['productImageUrl']) ?>" data-holder-rendered="true">
                                                             </div>
-                                                        <?php endforeach; ?>
-                                                    </div>
-                                                <?php endif; ?>
-                                                <div>
+                                                        </div>
+                                                    <?php endif; ?>
+
                                                     <div class="col-auto">
-                                                        <input type="file" class="form-control" name="galleryImages[]" id="galleryImages" multiple>
-                                                        <ul id="selectedFiles"></ul>
+                                                        <input type="file" name="productImage" class=" form-control" id="productImageInput" onchange="previewProductImage(event)">
+                                                        <input type="hidden" value="<?= isset($post['productImageUrl']) ? $post['productImageUrl'] : '' ?>" name="productImageUrl" class=" form-control">
                                                     </div>
+
                                                 </div>
                                             </div>
                                         </div>
-                                    </div><!-- end col -->
+                                        <div class="col-12">
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <h4 class="card-title">Product Menu Image</h4>
+                                                </div>
+                                                <div class="card-body">
+                                                    <?php if (isset($post) && isset($post['menuProductImageUrl'])) : ?>
+                                                        <div class="row mb-3">
+                                                            <div class="col-md-6">
+                                                                <img class="rounded me-2" id="previewmenuProductImage" alt="200x200" width="200" src="<?= base_url($post['menuProductImageUrl']) ?>" data-holder-rendered="true">
+                                                            </div>
+                                                        </div>
+                                                    <?php endif; ?>
+
+                                                    <div class="col-auto">
+                                                        <input type="file" name="menuProductImage" class=" form-control" id="productImageInput" onchange="previewmenuProductImage(event)">
+                                                        <input type="hidden" value="<?= isset($post['menuProductImageUrl']) ? $post['menuProductImageUrl'] : '' ?>" name="menuProductImageUrl" class=" form-control">
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <h4 class="card-title">Banner Image</h4>
+                                                </div>
+                                                <div class="card-body">
+                                                    <?php if (isset($post) && isset($post['productBannerImageUrl'])) : ?>
+                                                        <div class="row mb-3">
+                                                            <div class="col-md-6">
+                                                                <img class="rounded me-2" id="bannerPreview" alt="200x200" width="200" src="<?= base_url($post['productBannerImageUrl']) ?>" data-holder-rendered="true">
+                                                            </div>
+                                                        </div>
+                                                    <?php endif; ?>
+
+                                                    <div class="col-auto">
+                                                        <input type="file" name="bannerImage" class=" form-control" id="bannerImageInput" onchange="previewImage(event)">
+                                                        <input type="hidden" value="<?= isset($post['productBannerImageUrl']) ? $post['productBannerImageUrl'] : '' ?>" name="productBannerImageUrl" class=" form-control">
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <h4 class="card-title">Gallary Image</h4>
+                                                </div>
+                                                <div class="card-body">
+                                                    <?php if (isset($gallaryImages) && isset($gallaryImages)) : ?>
+                                                        <div class="row">
+                                                            <?php foreach ($gallaryImages as $gallaryImage_row) : ?>
+                                                                <div class="col-md-3  mb-3">
+                                                                    <img class="rounded me-2" alt="200x200" width="200" src="<?= base_url($gallaryImage_row->gallaryImageUrl) ?>" data-holder-rendered="true">
+                                                                </div>
+                                                            <?php endforeach; ?>
+                                                        </div>
+                                                    <?php endif; ?>
+                                                    <div>
+                                                        <div class="col-auto">
+                                                            <input type="file" class="form-control" name="galleryImages[]" id="galleryImages" multiple>
+                                                            <ul id="selectedFiles"></ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div><!-- end col -->
+                                    </div>
                                 </div>
 
                                 <div class="modal-footer">

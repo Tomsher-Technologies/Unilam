@@ -96,7 +96,7 @@
                                                             </td>
                                                             <td>
                                                                 <div class="tools">
-                                                                    <a href="edit-banner/<?= $bannerDetails_row['bannerID']; ?>">
+                                                                    <a href="edit-banner/<?= $bannerDetails_row['canonicalName']; ?>">
                                                                         <i class="mdi mdi-pencil"></i>
                                                                     </a>
                                                                     <a class="deleteButton" href="delete-banner/<?= $bannerDetails_row['bannerID']; ?>">

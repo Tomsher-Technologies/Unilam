@@ -97,7 +97,7 @@
                                                             </td>
                                                             <td>
                                                                 <div class="tools">
-                                                                    <a href="edit-product-material/<?= $productMaterialDetails_row['materialID']; ?>">
+                                                                    <a href="edit-product-material/<?= $productMaterialDetails_row['canonicalName']; ?>">
                                                                         <i class="mdi mdi-pencil"></i>
                                                                     </a>
                                                                     <a class="deleteButton" href="delete-product-material/<?= $productMaterialDetails_row['materialID']; ?>">

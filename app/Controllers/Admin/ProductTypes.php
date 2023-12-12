@@ -41,23 +41,23 @@ class ProductTypes extends AdminBaseResourceController
         }
     }
 
-    public function editproducttype($productTypeID = null)
+    public function editproducttype($canonicalName = null)
     {
         $session = session();
 
         $data = [
             'page_title' => view('partials/page-title', ['title' => 'Edit Product Type', 'li_1' => 'Product Type', 'li_2' => 'Edit Product Type'])
         ];
-        $data['post'] = $this->model->where('productTypeID', $productTypeID)->where('status', 1)->first();
+        $data['post'] = $this->model->where('canonicalName', $canonicalName)->first();
 
-        if (($this->request->getMethod() === 'post') && !empty($productTypeID)) {
+        if (($this->request->getMethod() === 'post') && !empty($data['post']['productTypeID'])) {
             if (!empty($data['post'])) {
 
-                $response =  $this->manageproducttype($productTypeID);
+                $response =  $this->manageproducttype($data['post']['productTypeID']);
                 if ($response === 'Success') {
                     $session->setFlashdata('successMessage', 'Successfully updated Product type');
 
-                    if (!empty($productTypeID)) {
+                    if (!empty($data['post']['productTypeID'])) {
 
                         return redirect()->to('../admin/product-types');
                     } else {
@@ -84,9 +84,15 @@ class ProductTypes extends AdminBaseResourceController
         $data['post'] = $_POST;
 
         if ($this->validateInput()) {
+            
+            $canonName = strtolower($this->request->getVar('typeTitle'));
+            $canonicalName = str_replace(' ', '-', $canonName); // Replaces all spaces with hyphens.
+            $canonicalName = preg_replace('/[^A-Za-z0-9\-]/', '', $canonicalName); // Removes special chars.
+            $cann = preg_replace('/-+/', '-', $canonicalName);
             if (!empty($productTypeID)) {
 
                 $updateData = [
+                    'canonicalName' => $cann . '-' . $productTypeID,
                     'typeTitle' => $this->request->getVar('typeTitle'),
                     'updatedOn' => date('Y-m-d H:i:s'),
                 ];
@@ -106,6 +112,8 @@ class ProductTypes extends AdminBaseResourceController
 
                 $productTypeID =  $this->model->insertID();
                 if ($productTypeID) {
+
+                    $this->model->update($productTypeID, ['canonicalName' => $cann . '-' . $productTypeID]);
 
                     return 'Success';
                 } else {

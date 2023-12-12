@@ -23,23 +23,23 @@ class Abouts extends AdminBaseResourceController
     }
 
 
-    public function editabout($aboutID = null)
+    public function editabout($canonicalName = null)
     {
         $session = session();
 
         $data = [
             'page_title' => view('partials/page-title', ['title' => 'Edit Abouts', 'li_1' => 'Abouts', 'li_2' => 'Edit Abouts'])
         ];
-        $data['post'] = $this->model->where('aboutID', $aboutID)->first();
+        $data['post'] = $this->model->where('canonicalName', $canonicalName)->first();
         // print_r($data['post']);die;
-        if (($this->request->getMethod() === 'post') && !empty($aboutID)) {
+        if (($this->request->getMethod() === 'post') && !empty($canonicalName)) {
             if (!empty($data['post'])) {
 
-                $response =  $this->manageabout($aboutID);
+                $response =  $this->manageabout($data['post']['aboutID']);
                 if ($response === 'Success') {
                     $session->setFlashdata('successMessage', 'Successfully updated about');
 
-                    if (!empty($aboutID)) {
+                    if (!empty($canonicalName)) {
 
                         return redirect()->to('../admin/abouts');
                     } else {
@@ -67,8 +67,13 @@ class Abouts extends AdminBaseResourceController
 
         if ($this->validateInput($aboutID)) {
             if (!empty($aboutID)) {
+                $canonName = strtolower($this->request->getVar('aboutTitle'));
+                $canonicalName = str_replace(' ', '-', $canonName); // Replaces all spaces with hyphens.
+                $canonicalName = preg_replace('/[^A-Za-z0-9\-]/', '', $canonicalName); // Removes special chars.
+                $cann = preg_replace('/-+/', '-', $canonicalName);
 
                 $updateData = [
+                    'canonicalName' => $cann . '-' . $aboutID,
                     'bannerTitle' => $this->request->getVar('bannerTitle'),
                     'bannerImageUrl' => $this->handleUploadImage("bannerImage", 'bannerImage', '', $this->request->getVar('bannerImageUrl')),
                     'aboutAuthorName' => $this->request->getVar('aboutAuthorName'),

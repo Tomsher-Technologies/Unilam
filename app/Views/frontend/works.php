@@ -18,7 +18,7 @@
 
                                         <div class="banner-desc-2">
                                             <div class="ot-button text-center">
-                                                <a href="<?=base_url('projects-details')?>/<?= $worksDetails_row->workID ?>" class="octf-btn octf-btn-light border-hover-light ">View Project</a>
+                                                <a href="<?=base_url('projects-details')?>/<?= $worksDetails_row->canonicalName ?>" class="octf-btn octf-btn-light border-hover-light ">View Project</a>
                                             </div>
                                         </div>
                                     </li>

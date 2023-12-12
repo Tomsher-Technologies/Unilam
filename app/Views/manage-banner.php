@@ -15,7 +15,7 @@
 
     <div id="layout-wrapper">
         <?php
-        if (isset($post['bannerID'])) {
+        if (isset($post['canonicalName'])) {
             echo  $this->include('partials/menudoubleback');
         } else {
             echo     $this->include('partials/menu');
@@ -49,7 +49,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="card">
-                                <form class="needs-validation p-5 custom-form mt-4 pt-2" method="POST" action="<?= isset($post['bannerID']) ? base_url("admin/edit-banner/{$post['bannerID']}") : base_url('admin/create-banner'); ?>" enctype="multipart/form-data">
+                                <form class="needs-validation p-5 custom-form mt-4 pt-2" method="POST" action="<?= isset($post['canonicalName']) ? base_url("admin/edit-banner/{$post['canonicalName']}") : base_url('admin/create-banner'); ?>" enctype="multipart/form-data">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="mb-3">
@@ -124,6 +124,10 @@
                                                     <?php endif; ?>
                                                 </div>
                                             </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Show Order</label>
+                                            <input type="number" name="showOrder" class="form-control" placeholder="Enter show order" value="<?= isset($post['showOrder']) ? $post['showOrder'] : ''; ?>">
                                         </div>
                                     </div>
                                     <div class="modal-footer">

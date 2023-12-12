@@ -41,36 +41,34 @@ class ServiceFeatures extends AdminBaseResourceController
         }
     }
 
-    public function editservicefeature($featureID = null)
+    public function editservicefeature($canonicalName = null)
     {
         $session = session();
 
         $data = [
             'page_title' => view('partials/page-title', ['title' => 'Edit Features', 'li_1' => 'Features', 'li_2' => 'Edit Feature'])
         ];
-        $data['post'] = $this->model->where('featureID', $featureID)->where('status', 1)->first();
+        $data['post'] = $this->model->where('canonicalName', $canonicalName)->first();
 
-        if (($this->request->getMethod() === 'post') && !empty($featureID)) {
-            if (!empty($data['post'])) {
+        if (!empty($data['post'])) {
+            if (($this->request->getMethod() === 'post') && !empty($data['post']['featureID'])) {
 
-                $response =  $this->managefeature($featureID);
+                $response =  $this->managefeature($data['post']['featureID']);
                 if ($response === 'Success') {
                     $session->setFlashdata('successMessage', 'Successfully updated feature');
-                    if (!empty($featureID)) {
-
+                    if (!empty($data['post']['featureID'])) {
                         return redirect()->to('../admin/service-feature-lists');
                     } else {
-
                         return redirect()->to('service-feature-lists');
                     }
                 } else {
                     return view('manage-service-feature', $data);
                 }
             } else {
-                $session->setFlashdata('errorMessage', 'This Features not found!');
                 return view('manage-service-feature', $data);
             }
         } else {
+            $session->setFlashdata('errorMessage', 'This Features not found!');
             return view('manage-service-feature', $data);
         }
     }
@@ -83,13 +81,19 @@ class ServiceFeatures extends AdminBaseResourceController
         $data['post'] = $_POST;
 
         if ($this->validateInput($featureID)) {
+            $canonName = strtolower($this->request->getVar('featureTitle'));
+            $canonicalName = str_replace(' ', '-', $canonName); // Replaces all spaces with hyphens.
+            $canonicalName = preg_replace('/[^A-Za-z0-9\-]/', '', $canonicalName); // Removes special chars.
+            $cann = preg_replace('/-+/', '-', $canonicalName);
+
             if (!empty($featureID)) {
 
                 $updateData = [
+                    'canonicalName' => $cann . '-' . $featureID,
                     'featureTitle' => $this->request->getVar('featureTitle'),
                     'featureDescription' => $this->request->getVar('featureDescription'),
                     'featureIconUrl' => $this->handleUploadImage("featureIcon", 'featureIcon', '', $this->request->getVar('featureIconUrl')),
-                    'showOrder' => !empty($this->request->getVar('showOrder')) ??  $this->getNextShowOrder($this->model),
+                    'showOrder' => !empty($this->request->getVar('showOrder')) ? $this->request->getVar('showOrder') :  $this->getNextShowOrder($this->model),
                     'updatedOn' => date('Y-m-d H:i:s'),
                 ];
 
@@ -101,7 +105,7 @@ class ServiceFeatures extends AdminBaseResourceController
                     'featureDescription' => $this->request->getVar('featureDescription'),
                     'featureIconUrl' => $this->handleUploadImage("featureIcon", 'featureIcon', '', 'defaultUrl'),
                     'featureBannerImageUrl' => $this->handleUploadImage("featureBannerImage", 'featureBannerImage', '', 'defaultUrl'),
-                    'showOrder' => !empty($this->request->getVar('showOrder')) ??  $this->getNextShowOrder($this->model),
+                    'showOrder' => !empty($this->request->getVar('showOrder')) ? $this->request->getVar('showOrder') :  $this->getNextShowOrder($this->model),
                     'status' => '1',
                     'statusOn' => date('Y-m-d H:i:s'),
                     'createdOn' => date('Y-m-d H:i:s'),
@@ -112,6 +116,8 @@ class ServiceFeatures extends AdminBaseResourceController
 
                 $featureID =  $this->model->insertID();
                 if ($featureID) {
+
+                    $this->model->update($featureID, ['canonicalName' => $cann . '-' . $featureID]);
 
                     return 'Success';
                 } else {

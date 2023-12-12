@@ -64,10 +64,14 @@
                     </a>
                 </li>
                 <li>
-                    <a href="<?= base_url('../admin/contacts') ?>">
+                    <a href="javascript: void(0);" class="has-arrow">
                         <i data-feather="phone"></i>
                         <span data-key="t-dashboard">Contact Us</span>
                     </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="<?= base_url('../admin/contacts') ?>"> <span data-key="t-dashboard">Contact Us</span></a></li>
+                        <li><a href="<?= base_url('../admin/contacts-lists') ?>"> <span data-key="t-dashboard">Contact Lists</span></a></li>
+                    </ul>
                 </li>
                 <li>
                     <a href="<?= base_url('../admin/banners-lists') ?>">
@@ -79,6 +83,12 @@
                     <a href="<?= base_url('../admin/features-lists') ?>">
                         <i data-feather="cpu"></i>
                         <span data-key="t-dashboard">Features</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= base_url('../admin/contents-lists') ?>">
+                        <i data-feather="cpu"></i>
+                        <span data-key="t-dashboard">Contents</span>
                     </a>
                 </li>
 

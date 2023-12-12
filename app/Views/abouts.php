@@ -28,10 +28,6 @@
 <div id="layout-wrapper">
 
     <?= $this->include('partials/menu') ?>
-
-    <!-- ============================================================== -->
-    <!-- Start right Content here -->
-    <!-- ============================================================== -->
     <div class="main-content">
 
         <div class="page-content">
@@ -62,7 +58,7 @@
                                 </div>
                             <?php endif; ?>
                             <div class="card-header">
-                                <h4 class="card-title">User type lists</h4>
+                                <h4 class="card-title">About lists</h4>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -95,7 +91,7 @@
                                                         </td>
                                                         <td>
                                                             <div class="tools">
-                                                                <a href="edit-about/<?= $aboutDetails_row['aboutID']; ?>">
+                                                                <a href="edit-about/<?= $aboutDetails_row['canonicalName']; ?>">
                                                                     <i class="mdi mdi-pencil"></i>
                                                                 </a>
                                                             </div>

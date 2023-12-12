@@ -41,23 +41,23 @@ class ProductMaterials extends AdminBaseResourceController
         }
     }
 
-    public function editproductmaterial($materialID = null)
+    public function editproductmaterial($canonicalName = null)
     {
         $session = session();
 
         $data = [
             'page_title' => view('partials/page-title', ['title' => 'Edit Product Materials', 'li_1' => 'Product Materials', 'li_2' => 'Edit Product Materials'])
         ];
-        $data['post'] = $this->model->where('materialID', $materialID)->first();
+        $data['post'] = $this->model->where('canonicalName', $canonicalName)->first();
 
-        if (($this->request->getMethod() === 'post') && !empty($materialID)) {
+        if (($this->request->getMethod() === 'post') && !empty($canonicalName)) {
             if (!empty($data['post'])) {
 
-                $response =  $this->manageproductmaterial($materialID);
+                $response =  $this->manageproductmaterial($data['post']['materialID']);
                 if ($response === 'Success') {
                     $session->setFlashdata('successMessage', 'Successfully updated Product Materials');
 
-                    if (!empty($materialID)) {
+                    if (!empty($canonicalName)) {
 
                         return redirect()->to('../admin/product-materials');
                     } else {
@@ -84,9 +84,13 @@ class ProductMaterials extends AdminBaseResourceController
         $data['post'] = $_POST;
 
         if ($this->validateInput()) {
+            $canonName = strtolower($this->request->getVar('materialName'));
+            $canonicalName = str_replace(' ', '-', $canonName); // Replaces all spaces with hyphens.
+            $canonicalName = preg_replace('/[^A-Za-z0-9\-]/', '', $canonicalName); // Removes special chars.
+            $cann = preg_replace('/-+/', '-', $canonicalName);
             if (!empty($materialID)) {
-
                 $updateData = [
+                    'canonicalName' => $cann . '-' . $materialID,
                     'materialName' => $this->request->getVar('materialName'),
                     'updatedOn' => date('Y-m-d H:i:s'),
                 ];
@@ -106,6 +110,8 @@ class ProductMaterials extends AdminBaseResourceController
 
                 $materialID =  $this->model->insertID();
                 if ($materialID) {
+
+                    $this->model->update($materialID, ['canonicalName' => $cann . '-' . $materialID]);
 
                     return 'Success';
                 } else {

@@ -89,7 +89,7 @@
                                                             </td>
                                                             <td>
                                                                 <div class="tools">
-                                                                    <a href="edit-contact/<?= $contactDetails_row['contactID']; ?>">
+                                                                    <a href="edit-contact/<?= $contactDetails_row['canonicalName']; ?>">
                                                                         <i class="mdi mdi-pencil"></i>
                                                                     </a>
                                                                 </div>

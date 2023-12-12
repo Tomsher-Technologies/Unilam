@@ -663,6 +663,21 @@ big {
   background-image: linear-gradient(0deg, #7e7e7e, #f5f5f5);
 }
 
+.photos-sample-container{
+  display:flex
+}
+.photos-sample {
+  color: #fff;
+  font-size: large;
+}
+
+.photos-sample-contact a {
+  color: #e95d15;
+  font-size: 20px;
+  margin-left: 5px;
+  cursor: pointer;
+}
+
 .title-link:hover {
   /* background-size: 100% 2px; */
 }
@@ -689,7 +704,7 @@ big {
   bottom: -3px;
   left: -7px;
   width: 20px;
-  height: 12px;
+  height: 5px;
   z-index: -1;
   transition: all 0.3s linear;
   -webkit-transition: all 0.3s linear;
@@ -5457,6 +5472,7 @@ object {
   color: #fff;
   margin-bottom: 26px;
 }
+
 .ot-process .process-des p {
   padding: 38px 50px 0;
   text-align: center;
@@ -6495,7 +6511,7 @@ object {
 
 #products-list .projects-grid .projects-box img {
   border: 1px solid #7a5222;
-  box-shadow: 1px 1px #764d24 , 2px 2px #7a5222, 3px 3px #764d24, 4px 4px #7a5222, 5px 5px #764d24, 6px 6px #7a5222, 7px 7px #764d24, 8px 8px #7a5222, 9px 9px #764d24 , 10px 10px #7a5222, 12px 12px #764d24 , 13px 13px #7a5222, 14px 14px #764d24 , 15px 15px #7a5222, 16px 16px #764d24, 17px 17px #7a5222, 18px 18px #764d24, 19px 19px #7a5222, 20px 20px #764d24,  21px 21px #7a5222;
+  box-shadow: 1px 1px #764d24, 2px 2px #7a5222, 3px 3px #764d24, 4px 4px #7a5222, 5px 5px #764d24, 6px 6px #7a5222, 7px 7px #764d24, 8px 8px #7a5222, 9px 9px #764d24, 10px 10px #7a5222, 12px 12px #764d24, 13px 13px #7a5222, 14px 14px #764d24, 15px 15px #7a5222, 16px 16px #764d24, 17px 17px #7a5222, 18px 18px #764d24, 19px 19px #7a5222, 20px 20px #764d24, 21px 21px #7a5222;
   -webkit-transform: translateX(-5px);
   transform: translateX(-5px);
 }
@@ -9515,10 +9531,10 @@ ol.style-default li:last-child {
 #works .tp-caption-main,
 #works .tp-caption {
   font-family: 'Titillium Web';
-  font-weight: 100  !important;
-    background-color: rgb(0 0 0 / 38%) !important;
-      padding: 15px !important;
-  
+  font-weight: 100 !important;
+  background-color: rgb(0 0 0 / 38%) !important;
+  padding: 15px !important;
+
 
 }
 
@@ -11331,10 +11347,12 @@ ol.style-default li:last-child {
 }
 
 @media (max-width: 991px) {
-  .skill-img-4 img, .testi-img-3 img {
+
+  .skill-img-4 img,
+  .testi-img-3 img {
 
     margin-bottom: 25px;
-}
+  }
 
 }
 
@@ -12118,10 +12136,11 @@ ol.style-default li:last-child {
   font-size: 15px;
   margin-bottom: 0;
 }
+
 @media (max-width: 992px) {
-.footer-bottom p{
-  text-align: center;
-}
+  .footer-bottom p {
+    text-align: center;
+  }
 }
 
 .footer-bottom ul {

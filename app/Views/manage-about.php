@@ -15,7 +15,7 @@
 <!-- Begin page -->
 <div id="layout-wrapper">
     <?php
-    if (isset($post['aboutID'])) {
+    if (isset($post['canonicalName'])) {
         echo  $this->include('partials/menudoubleback');
     } else {
         echo     $this->include('partials/menu');
@@ -34,7 +34,7 @@
 
                             <div class="page-title-right">
                                 <ol class="breadcrumb m-0">
-                                    <li class="breadcrumb-item"><a href="<?= isset($post['aboutID']) ? '../abouts' : '../admin/abouts'; ?>">Abouts</a></li>
+                                    <li class="breadcrumb-item"><a href="<?= isset($post['canonicalName']) ? '../abouts' : '../admin/abouts'; ?>">Abouts</a></li>
                                     <?php if (isset($li_2)) :  ?>
                                         <li class="breadcrumb-item active"><?= $li_2 ?></li>
                                     <?php endif ?>
@@ -49,7 +49,7 @@
                 <div class="row">
                     <div class="col-xl-12">
                         <div class="card">
-                            <form class="needs-validation p-5 custom-form mt-4 pt-2" method="POST" action="<?= isset($post['aboutID']) ? base_url("admin/edit-about/{$post['aboutID']}") : base_url('admin/create-about'); ?>" enctype="multipart/form-data">
+                            <form class="needs-validation p-5 custom-form mt-4 pt-2" method="POST" action="<?= isset($post['canonicalName']) ? base_url("admin/edit-about/{$post['canonicalName']}") : base_url('admin/create-about'); ?>" enctype="multipart/form-data">
                                 <div class="row">
                                     <?php if ((isset($post)) && ($post['aboutType'] != 'dashboardprojectside')) : ?>
                                         <div class="mb-3 col-md-6 ">
@@ -224,8 +224,8 @@
                                             <?php endif; ?>
                                         </div>
                                         <div class="mb-3 col-md-6 ">
-                                            <label class="form-label">Award Winning</label>
-                                            <input type="number" name="awardWinning" class="form-control" id="awardWinning" placeholder="Enter award winning" value="<?= isset($post['awardWinning']) ? $post['awardWinning'] : ''; ?>">
+                                            <label class="form-label">Projects</label>
+                                            <input type="number" name="awardWinning" class="form-control" id="awardWinning" placeholder="Enter projects" value="<?= isset($post['awardWinning']) ? $post['awardWinning'] : ''; ?>">
                                             <?php if (isset($validation) && isset($validation['awardWinning'])) : ?>
                                                 <small class="text-danger">
                                                     <?= esc($validation['awardWinning']) ?>

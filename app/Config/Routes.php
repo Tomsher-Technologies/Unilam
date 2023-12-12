@@ -44,113 +44,121 @@ $routes->group('admin', function ($routes) {
 	$routes->get('users', 'Admin\Users::index');
 	$routes->get('create-user', 'Admin\Users::createuser');
 	$routes->post('create-user', 'Admin\Users::createuser');
-	$routes->get('edit-user/(:num)', 'Admin\Users::edituser/$1');
-	$routes->post('edit-user/(:num)', 'Admin\Users::edituser/$1');
-	$routes->get('delete-user/(:num)', 'Admin\Users::deleteuser/$1');
-	$routes->post('delete-user/(:num)', 'Admin\Users::deleteuser/$1');
+	$routes->get('edit-user/(:any)', 'Admin\Users::edituser/$1');
+	$routes->post('edit-user/(:any)', 'Admin\Users::edituser/$1');
+	$routes->get('delete-user/(:any)', 'Admin\Users::deleteuser/$1');
+	$routes->post('delete-user/(:any)', 'Admin\Users::deleteuser/$1');
 
 	// user-types
 	$routes->get('user-types', 'Admin\UserTypes::index');
 	$routes->get('create-user-type', 'Admin\UserTypes::createusertype');
 	$routes->post('create-user-type', 'Admin\UserTypes::createusertype');
-	$routes->get('edit-user-type/(:num)', 'Admin\UserTypes::editusertype/$1');
-	$routes->post('edit-user-type/(:num)', 'Admin\UserTypes::editusertype/$1');
-	$routes->get('delete-user-type/(:num)', 'Admin\UserTypes::deleteusertype/$1');
-	$routes->post('delete-user-type/(:num)', 'Admin\UserTypes::deleteusertype/$1');
+	$routes->get('edit-user-type/(:any)', 'Admin\UserTypes::editusertype/$1');
+	$routes->post('edit-user-type/(:any)', 'Admin\UserTypes::editusertype/$1');
+	$routes->get('delete-user-type/(:any)', 'Admin\UserTypes::deleteusertype/$1');
+	$routes->post('delete-user-type/(:any)', 'Admin\UserTypes::deleteusertype/$1');
 
 	// product-types
 	$routes->get('product-types', 'Admin\ProductTypes::index');
 	$routes->get('create-product-type', 'Admin\ProductTypes::createproducttype');
 	$routes->post('create-product-type', 'Admin\ProductTypes::createproducttype');
-	$routes->get('edit-product-type/(:num)', 'Admin\ProductTypes::editproducttype/$1');
-	$routes->post('edit-product-type/(:num)', 'Admin\ProductTypes::editproducttype/$1');
-	$routes->get('delete-product-type/(:num)', 'Admin\ProductTypes::deleteproducttype/$1');
-	$routes->post('delete-product-type/(:num)', 'Admin\ProductTypes::deleteproducttype/$1');
+	$routes->get('edit-product-type/(:any)', 'Admin\ProductTypes::editproducttype/$1');
+	$routes->post('edit-product-type/(:any)', 'Admin\ProductTypes::editproducttype/$1');
+	$routes->get('delete-product-type/(:any)', 'Admin\ProductTypes::deleteproducttype/$1');
+	$routes->post('delete-product-type/(:any)', 'Admin\ProductTypes::deleteproducttype/$1');
 
 	// product
 	$routes->get('products', 'Admin\Products::index');
 	$routes->get('create-product', 'Admin\Products::createproduct');
 	$routes->post('create-product', 'Admin\Products::createproduct');
-	$routes->get('edit-product/(:num)', 'Admin\Products::editproduct/$1');
-	$routes->post('edit-product/(:num)', 'Admin\Products::editproduct/$1');
-	// $routes->get('delete-product/(:num)', 'Admin\Products::deleteproduct/$1');
-	// $routes->post('delete-product/(:num)', 'Admin\Products::deleteproduct/$1');
-	$routes->get('manage-product-types/(:num)', 'Admin\Products::manageproducttypes/$1');
-	$routes->post('manage-product-types/(:num)', 'Admin\Products::manageproducttypes/$1');
+	$routes->get('edit-product/(:any)', 'Admin\Products::editproduct/$1');
+	$routes->post('edit-product/(:any)', 'Admin\Products::editproduct/$1');
+	// $routes->get('delete-product/(:any)', 'Admin\Products::deleteproduct/$1');
+	// $routes->post('delete-product/(:any)', 'Admin\Products::deleteproduct/$1');
+	$routes->get('manage-product-types/(:any)', 'Admin\Products::manageproducttypes/$1');
+	$routes->post('manage-product-types/(:any)', 'Admin\Products::manageproducttypes/$1');
 
 	// product-materials
 	$routes->get('product-materials', 'Admin\ProductMaterials::index');
 	$routes->get('create-product-material', 'Admin\ProductMaterials::createproductmaterial');
 	$routes->post('create-product-material', 'Admin\ProductMaterials::createproductmaterial');
-	$routes->get('edit-product-material/(:num)', 'Admin\ProductMaterials::editproductmaterial/$1');
-	$routes->post('edit-product-material/(:num)', 'Admin\ProductMaterials::editproductmaterial/$1');
-	$routes->get('delete-product-material/(:num)', 'Admin\ProductMaterials::deleteproductmaterial/$1');
-	$routes->post('delete-product-material/(:num)', 'Admin\ProductMaterials::deleteproductmaterial/$1');
+	$routes->get('edit-product-material/(:any)', 'Admin\ProductMaterials::editproductmaterial/$1');
+	$routes->post('edit-product-material/(:any)', 'Admin\ProductMaterials::editproductmaterial/$1');
+	$routes->get('delete-product-material/(:any)', 'Admin\ProductMaterials::deleteproductmaterial/$1');
+	$routes->post('delete-product-material/(:any)', 'Admin\ProductMaterials::deleteproductmaterial/$1');
 
 
 	// work-categories
 	$routes->get('work-categories', 'Admin\WorkCategories::index');
 	$routes->get('create-work-category', 'Admin\WorkCategories::createworkcategory');
 	$routes->post('create-work-category', 'Admin\WorkCategories::createworkcategory');
-	$routes->get('edit-work-category/(:num)', 'Admin\WorkCategories::editworkcategory/$1');
-	$routes->post('edit-work-category/(:num)', 'Admin\WorkCategories::editworkcategory/$1');
-	$routes->get('delete-work-category/(:num)', 'Admin\WorkCategories::deleteworkcategory/$1');
-	$routes->post('delete-work-category/(:num)', 'Admin\WorkCategories::deleteworkcategory/$1');
+	$routes->get('edit-work-category/(:any)', 'Admin\WorkCategories::editworkcategory/$1');
+	$routes->post('edit-work-category/(:any)', 'Admin\WorkCategories::editworkcategory/$1');
+	$routes->get('delete-work-category/(:any)', 'Admin\WorkCategories::deleteworkcategory/$1');
+	$routes->post('delete-work-category/(:any)', 'Admin\WorkCategories::deleteworkcategory/$1');
 
 	// works
 	$routes->get('works-lists', 'Admin\Works::index');
 	$routes->get('create-work', 'Admin\Works::creatework');
 	$routes->post('create-work', 'Admin\Works::creatework');
-	$routes->get('edit-work/(:num)', 'Admin\Works::editwork/$1');
-	$routes->post('edit-work/(:num)', 'Admin\Works::editwork/$1');
-	$routes->get('delete-work/(:num)', 'Admin\Works::deletework/$1');
-	$routes->post('delete-work/(:num)', 'Admin\Works::deletework/$1');
+	$routes->get('edit-work/(:any)', 'Admin\Works::editwork/$1');
+	$routes->post('edit-work/(:any)', 'Admin\Works::editwork/$1');
+	$routes->get('delete-work/(:any)', 'Admin\Works::deletework/$1');
+	$routes->post('delete-work/(:any)', 'Admin\Works::deletework/$1');
 
 	// service
 	$routes->get('service-lists', 'Admin\Services::index');
 	$routes->get('create-service', 'Admin\Services::createservice');
 	$routes->post('create-service', 'Admin\Services::createservice');
-	$routes->get('edit-service/(:num)', 'Admin\Services::editservice/$1');
-	$routes->post('edit-service/(:num)', 'Admin\Services::editservice/$1');
-	$routes->get('delete-service/(:num)', 'Admin\Services::deleteservice/$1');
-	$routes->post('delete-service/(:num)', 'Admin\Services::deleteservice/$1');
+	$routes->get('edit-service/(:any)', 'Admin\Services::editservice/$1');
+	$routes->post('edit-service/(:any)', 'Admin\Services::editservice/$1');
+	$routes->get('delete-service/(:any)', 'Admin\Services::deleteservice/$1');
+	$routes->post('delete-service/(:any)', 'Admin\Services::deleteservice/$1');
 
 	// service
 	$routes->get('service-feature-lists', 'Admin\ServiceFeatures::index');
 	$routes->get('create-service-feature', 'Admin\ServiceFeatures::createservicefeature');
 	$routes->post('create-service-feature', 'Admin\ServiceFeatures::createservicefeature');
-	$routes->get('edit-service-feature/(:num)', 'Admin\ServiceFeatures::editservicefeature/$1');
-	$routes->post('edit-service-feature/(:num)', 'Admin\ServiceFeatures::editservicefeature/$1');
-	$routes->get('delete-service-feature/(:num)', 'Admin\ServiceFeatures::deleteservicefeature/$1');
-	$routes->post('delete-service-feature/(:num)', 'Admin\ServiceFeatures::deleteservicefeature/$1');
+	$routes->get('edit-service-feature/(:any)', 'Admin\ServiceFeatures::editservicefeature/$1');
+	$routes->post('edit-service-feature/(:any)', 'Admin\ServiceFeatures::editservicefeature/$1');
+	$routes->get('delete-service-feature/(:any)', 'Admin\ServiceFeatures::deleteservicefeature/$1');
+	$routes->post('delete-service-feature/(:any)', 'Admin\ServiceFeatures::deleteservicefeature/$1');
 
 	// abouts
 	$routes->get('abouts', 'Admin\Abouts::index');
-	$routes->get('edit-about/(:num)', 'Admin\Abouts::editabout/$1');
-	$routes->post('edit-about/(:num)', 'Admin\Abouts::editabout/$1');
+	$routes->get('edit-about/(:any)', 'Admin\Abouts::editabout/$1');
+	$routes->post('edit-about/(:any)', 'Admin\Abouts::editabout/$1');
 
 	// contact
 	$routes->get('contacts', 'Admin\Contacts::index');
-	$routes->get('edit-contact/(:num)', 'Admin\Contacts::editcontact/$1');
-	$routes->post('edit-contact/(:num)', 'Admin\Contacts::editcontact/$1');
+	$routes->get('edit-contact/(:any)', 'Admin\Contacts::editcontact/$1');
+	$routes->post('edit-contact/(:any)', 'Admin\Contacts::editcontact/$1');
+
+	// contacts-lists
+	$routes->get('contacts-lists', 'Admin\Contacts::contactslists');
 
 	// banners
 	$routes->get('banners-lists', 'Admin\Banners::index');
 	$routes->get('create-banner', 'Admin\Banners::createbanner');
 	$routes->post('create-banner', 'Admin\Banners::createbanner');
-	$routes->get('edit-banner/(:num)', 'Admin\Banners::editbanner/$1');
-	$routes->post('edit-banner/(:num)', 'Admin\Banners::editbanner/$1');
-	$routes->get('delete-banner/(:num)', 'Admin\Banners::deletebanner/$1');
-	$routes->post('delete-banner/(:num)', 'Admin\Banners::deletebanner/$1');
+	$routes->get('edit-banner/(:any)', 'Admin\Banners::editbanner/$1');
+	$routes->post('edit-banner/(:any)', 'Admin\Banners::editbanner/$1');
+	$routes->get('delete-banner/(:any)', 'Admin\Banners::deletebanner/$1');
+	$routes->post('delete-banner/(:any)', 'Admin\Banners::deletebanner/$1');
 
 	// features
 	$routes->get('features-lists', 'Admin\Features::index');
 	$routes->get('create-feature', 'Admin\Features::createfeature');
 	$routes->post('create-feature', 'Admin\Features::createfeature');
-	$routes->get('edit-feature/(:num)', 'Admin\Features::editfeature/$1');
-	$routes->post('edit-feature/(:num)', 'Admin\Features::editfeature/$1');
-	$routes->get('delete-feature/(:num)', 'Admin\Features::deletefeature/$1');
-	$routes->post('delete-feature/(:num)', 'Admin\Features::deletefeature/$1');
+	$routes->get('edit-feature/(:any)', 'Admin\Features::editfeature/$1');
+	$routes->post('edit-feature/(:any)', 'Admin\Features::editfeature/$1');
+	$routes->get('delete-feature/(:any)', 'Admin\Features::deletefeature/$1');
+	$routes->post('delete-feature/(:any)', 'Admin\Features::deletefeature/$1');
+
+	// contents-lists
+	$routes->get('contents-lists', 'Admin\Contents::index');
+	$routes->get('edit-contents/(:any)', 'Admin\Contents::editcontents/$1');
+	$routes->post('edit-contents/(:any)', 'Admin\Contents::editcontents/$1');
 });
 
 
@@ -159,11 +167,11 @@ $routes->get('/home', 'Home::index');
 $routes->get('home', 'Home::index');
 $routes->get('about', 'Home::about');
 $routes->get('projects', 'Home::projects');
-$routes->get('services/(:num)', 'Home::services/$1');
+$routes->get('services/(:any)', 'Home::services/$1');
 $routes->get('works', 'Home::works');
-$routes->get('projects-details/(:num)', 'Home::projectsdetails/$1');
+$routes->get('projects-details/(:any)', 'Home::projectsdetails/$1');
 $routes->get('products', 'Home::products');
-$routes->get('products/(:num)', 'Home::products/$1');
+$routes->get('products/(:any)', 'Home::products/$1');
 $routes->get('contact', 'Home::contact');
 $routes->post('contact', 'Home::contact');
 // $routes->get('login', 'Admin\Security\Guest::show_auth_login');

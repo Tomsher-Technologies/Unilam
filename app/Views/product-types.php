@@ -97,7 +97,7 @@
                                                             </td>
                                                             <td>
                                                                 <div class="tools">
-                                                                    <a href="edit-product-type/<?= $productTypeDetails_row['productTypeID']; ?>">
+                                                                    <a href="edit-product-type/<?= $productTypeDetails_row['canonicalName']; ?>">
                                                                         <i class="mdi mdi-pencil"></i>
                                                                     </a>
                                                                     <a class="deleteButton" href="delete-product-type/<?= $productTypeDetails_row['productTypeID']; ?>">

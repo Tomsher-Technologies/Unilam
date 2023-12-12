@@ -10,6 +10,6 @@ class AdminWorkCategory_model extends AdminBaseModel
     protected $table = 'work_category';
     protected $primaryKey = 'categoryID';
     protected $allowedFields = [
-        'categoryName', 'createdOn',
+        'canonicalName', 'categoryName', 'createdOn',
     ];
 }

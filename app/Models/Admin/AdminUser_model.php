@@ -10,7 +10,7 @@ class AdminUser_model extends AdminBaseModel
     protected $table = 'users';
     protected $primaryKey = 'userID';
     protected $allowedFields = [
-        'userTypeID', 'name',  'email', 'password', 'userName', 'phone', 'status', 'statusOn', 'lastLoggedOn', 'createdOn'
+        'userTypeID', 'canonicalName', 'name',  'email', 'password', 'userName', 'phone', 'status', 'statusOn', 'lastLoggedOn', 'createdOn'
     ];
 
     public function getUsers($userID = null, $cnt = false, $page = 0, $limit = AdminPageSize, $conditions = array(), $sortby = null)
@@ -20,7 +20,7 @@ class AdminUser_model extends AdminBaseModel
         $builder->join('user_types UT', 'UT.userTypeID = U.userTypeID');
 
         if (empty($cnt)) {
-            $builder->select('U.userID, U.userTypeID, U.name, U.email, U.userName, U.phone, U.status, U.statusOn, U.lastLoggedOn, U.createdOn, UT.userType');
+            $builder->select('U.userID, U.userTypeID, U.canonicalName, U.name, U.email, U.userName, U.phone, U.status, U.statusOn, U.lastLoggedOn, U.createdOn, UT.userType');
         if(!empty($userID)){
             $builder->where('U.userID', $userID);
         }

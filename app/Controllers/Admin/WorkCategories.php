@@ -41,23 +41,23 @@ class WorkCategories extends AdminBaseResourceController
         }
     }
 
-    public function editworkcategory($categoryID = null)
+    public function editworkcategory($canonicalName = null)
     {
         $session = session();
 
         $data = [
             'page_title' => view('partials/page-title', ['title' => 'Edit Work Category', 'li_1' => 'Work Category', 'li_2' => 'Edit Work Category'])
         ];
-        $data['post'] = $this->model->where('categoryID', $categoryID)->first();
+        $data['post'] = $this->model->where('canonicalName', $canonicalName)->first();
 
-        if (($this->request->getMethod() === 'post') && !empty($categoryID)) {
+        if (($this->request->getMethod() === 'post') && !empty($data['post']['categoryID'])) {
             if (!empty($data['post'])) {
 
-                $response =  $this->manageworkcategory($categoryID);
+                $response =  $this->manageworkcategory($data['post']['categoryID']);
                 if ($response === 'Success') {
                     $session->setFlashdata('successMessage', 'Successfully updated Work Category');
 
-                    if (!empty($categoryID)) {
+                    if (!empty($data['post']['categoryID'])) {
 
                         return redirect()->to('../admin/work-categories');
                     } else {
@@ -84,9 +84,14 @@ class WorkCategories extends AdminBaseResourceController
         $data['post'] = $_POST;
 
         if ($this->validateInput()) {
-            if (!empty($categoryID)) {
+            $canonName = strtolower($this->request->getVar('categoryName'));
+            $canonicalName = str_replace(' ', '-', $canonName); // Replaces all spaces with hyphens.
+            $canonicalName = preg_replace('/[^A-Za-z0-9\-]/', '', $canonicalName); // Removes special chars.
+            $cann = preg_replace('/-+/', '-', $canonicalName);
 
+            if (!empty($categoryID)) {
                 $updateData = [
+                    'canonicalName' => $cann . '-' . $categoryID,
                     'categoryName' => $this->request->getVar('categoryName'),
                     'updatedOn' => date('Y-m-d H:i:s'),
                 ];
@@ -106,6 +111,8 @@ class WorkCategories extends AdminBaseResourceController
 
                 $categoryID =  $this->model->insertID();
                 if ($categoryID) {
+
+                    $this->model->update($categoryID, ['canonicalName' => $cann . '-' . $categoryID]);
 
                     return 'Success';
                 } else {

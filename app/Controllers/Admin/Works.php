@@ -45,24 +45,24 @@ class Works extends AdminBaseResourceController
         }
     }
 
-    public function editwork($workID = null)
+    public function editwork($canonicalName = null)
     {
         $session = session();
 
         $data = [
             'page_title' => view('partials/page-title', ['title' => 'Edit Works', 'li_1' => 'Works', 'li_2' => 'Edit Works'])
         ];
-        $data['post'] = $this->model->where('workID', $workID)->where('status', 1)->first();
-        $data['gallaryImages'] = $this->model->getGalleryImage($workID);
+        $data['post'] = $this->model->where('canonicalName', $canonicalName)->first();
+        $data['gallaryImages'] = $this->model->getGalleryImage($data['post']['workID']);
 
-        if (($this->request->getMethod() === 'post') && !empty($workID)) {
+        if (($this->request->getMethod() === 'post') && !empty($data['post']['workID'])) {
             if (!empty($data['post'])) {
 
-                $response =  $this->managework($workID);
+                $response =  $this->managework($data['post']['workID']);
                 if ($response === 'Success') {
                     $session->setFlashdata('successMessage', 'Successfully updated Works');
 
-                    if (!empty($workID)) {
+                    if (!empty($data['post']['workID'])) {
 
                         return redirect()->to('../admin/works-lists');
                     } else {
@@ -90,9 +90,15 @@ class Works extends AdminBaseResourceController
         $data['gallaryImages'] = $this->model->getGalleryImage($workID);
 
         if ($this->validateInput($workID)) {
+
+            $canonName = strtolower($this->request->getVar('projectTitle'));
+            $canonicalName = str_replace(' ', '-', $canonName); // Replaces all spaces with hyphens.
+            $canonicalName = preg_replace('/[^A-Za-z0-9\-]/', '', $canonicalName); // Removes special chars.
+            $cann = preg_replace('/-+/', '-', $canonicalName);
             if (!empty($workID)) {
 
                 $updateData = [
+                    'canonicalName' => $cann . '-' . $workID,
                     'workTitle' => $this->request->getVar('workTitle'),
                     'projectTitle' => $this->request->getVar('projectTitle'),
                     'workImageUrl' => $this->handleUploadImage("workImage", 'workImage', '', $this->request->getVar('workImageUrl')),
@@ -108,7 +114,7 @@ class Works extends AdminBaseResourceController
                     'twitterLink' => $this->request->getVar('twitterLink'),
                     'faceBookLink' => $this->request->getVar('faceBookLink'),
                     'linkedInLink' => $this->request->getVar('linkedInLink'),
-                    'showOrder' => !empty($this->request->getVar('showOrder')) ??  $this->getNextShowOrder($this->model),
+                    'showOrder' => !empty($this->request->getVar('showOrder')) ? $this->request->getVar('showOrder') :  $this->getNextShowOrder($this->model),
                     'updatedOn' => date('Y-m-d H:i:s'),
                 ];
                 $this->model->update($workID, $updateData);
@@ -134,7 +140,7 @@ class Works extends AdminBaseResourceController
                     'faceBookLink' => $this->request->getVar('faceBookLink'),
                     'linkedInLink' => $this->request->getVar('linkedInLink'),
                     'pinterestLink' => $this->request->getVar('pinterestLink'),
-                    'showOrder' => !empty($this->request->getVar('showOrder')) ??  $this->getNextShowOrder($this->model),
+                    'showOrder' => !empty($this->request->getVar('showOrder')) ? $this->request->getVar('showOrder') :  $this->getNextShowOrder($this->model),
                     'status' => '1',
                     'statusOn' => date('Y-m-d H:i:s'),
                     'createdOn' => date('Y-m-d H:i:s'),
@@ -146,6 +152,8 @@ class Works extends AdminBaseResourceController
 
                 $workID =  $this->model->insertID();
                 if ($workID) {
+
+                    $this->model->update($workID, ['canonicalName' => $cann . '-' . $workID]);
 
                     $this->insertGalleryImages($workID);
                     return 'Success';

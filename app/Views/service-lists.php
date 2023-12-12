@@ -56,7 +56,7 @@
                     <div class="row">
                         <div class="col-xl-12">
                             <div class="card">
-                                <?php if (isset($_SESSION['successMessage']) && !empty($_SESSION['successMessage'])) : ?>
+                                <?php echo "hee"; print_r(isset($_SESSION['successMessage']) && $_SESSION['successMessage']); if (isset($_SESSION['successMessage']) && !empty($_SESSION['successMessage'])) : ?>
                                     <div class="alert alert-success alert-dismissible alert-label-icon label-arrow fade show" role="alert">
                                         <i class="mdi mdi-check-all label-icon"></i><strong>Success</strong> - <?= $_SESSION['successMessage']; ?>
                                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -98,7 +98,7 @@
                                                             </td>
                                                             <td>
                                                                 <div class="tools">
-                                                                    <a href="edit-service/<?= $serviceDetails_row['serviceID']; ?>">
+                                                                    <a href="edit-service/<?= $serviceDetails_row['canonicalName']; ?>">
                                                                         <i class="mdi mdi-pencil"></i>
                                                                     </a>
                                                                     <a class="deleteButton" href="delete-service/<?= $serviceDetails_row['serviceID']; ?>">

@@ -18,7 +18,7 @@
 <!-- Begin page -->
 <div id="layout-wrapper">
     <?php
-    if (isset($post['productID'])) {
+    if (isset($post['canonicalName'])) {
         echo $this->include('partials/menudoubleback');
     } else {
         echo $this->include('partials/menu');
@@ -40,7 +40,7 @@
 
                             <div class="page-title-right">
                                 <ol class="breadcrumb m-0">
-                                    <li class="breadcrumb-item"><a href="<?= isset($post['productID']) ? "../products" : "../admin/products"; ?>">Product Type Details</a></li>
+                                    <li class="breadcrumb-item"><a href="<?= isset($post['canonicalName']) ? "../products" : "../admin/products"; ?>">Product Type Details</a></li>
                                     <?php if (isset($li_2)) :  ?>
                                         <li class="breadcrumb-item active"><?= $li_2 ?></li>
                                     <?php endif ?>
@@ -55,14 +55,14 @@
                 <div class="row">
                     <div class="col-xl-12">
                         <div class="card p-3">
-                            <!-- <form class="repeater needs-validation  custom-form mt-4 pt-2" method="POST" action="<?= isset($post['productID']) ? base_url("admin/manage-product-types/{$post['productID']}") : 'sss'; ?>" enctype="multipart/form-data"> -->
+                            <!-- <form class="repeater needs-validation  custom-form mt-4 pt-2" method="POST" action="<?= isset($post['canonicalName']) ? base_url("admin/manage-product-types/{$post['canonicalName']}") : 'sss'; ?>" enctype="multipart/form-data"> -->
 
                             <div class="mb-3">
                                 <label class="form-label">Product Title </label>
                                 <input type="text" disabled class="form-control" placeholder="Enter product title" value="<?= isset($post['productTitle']) ? $post['productTitle'] : ''; ?>" required>
 
                             </div>
-                            <form class="custom-form mt-4 pt-2" method="post" enctype="multipart/form-data" action="<?= isset($post['productID']) ? base_url("admin/manage-product-types/{$post['productID']}") : 'sss'; ?>">
+                            <form class="custom-form mt-4 pt-2" method="post" enctype="multipart/form-data" action="<?= isset($post['canonicalName']) ? base_url("admin/manage-product-types/{$post['canonicalName']}") : 'sss'; ?>">
                                 <?php foreach (explode(',', $post['productTypeIDs']) as $productTypeID) : ?>
                                     <?php foreach ($productTypes as $productType_row) : ?>
                                         <?php if ($productType_row['productTypeID'] == $productTypeID) :
@@ -92,19 +92,23 @@
                                                                                 <?php if (isset($productTypesDetail_row->typeDetailID) && isset($productTypesDetail_row->typeDetailImageUrl) && !empty($productTypesDetail_row->typeDetailImageUrl)) : ?>
                                                                                     <div class="row mb-3">
                                                                                         <div class="col-md-6">
-                                                                                            <img class="rounded me-2" alt="200x200" width="200" src="<?= base_url() .'/'. $productTypesDetail_row->typeDetailImageUrl ?>" data-holder-rendered="true">
+                                                                                            <img class="rounded me-2" alt="200x200" width="200" src="<?= base_url() . '/' . $productTypesDetail_row->typeDetailImageUrl ?>" data-holder-rendered="true">
                                                                                         </div>
                                                                                     </div>
                                                                                 <?php endif; ?>
 
                                                                                 <div class="col-auto">
                                                                                     <input type="file" name="typeDetailImage[]" class=" form-control" id="typeDetailImage" accept="image/*">
-                                                                                    <input type="hidden" name="typeDetailImageUrl[]" value="<?= (isset($productTypesDetail_row->typeDetailID) && !empty($productTypesDetail_row->typeDetailID)) ? $productTypesDetail_row->typeDetailImageUrl : $productType_row['typeDetailImageUrl']; ?>"  class=" form-control">
+                                                                                    <input type="hidden" name="typeDetailImageUrl[]" value="<?= (isset($productTypesDetail_row->typeDetailID) && !empty($productTypesDetail_row->typeDetailID)) ? $productTypesDetail_row->typeDetailImageUrl : $productType_row['typeDetailImageUrl']; ?>" class=" form-control">
                                                                                 </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
+                                                            <?php else :
+
+                                                            ?>
+                                                                <div class=""></div>
                                                             <?php
                                                                 break;
                                                             endif ?>
@@ -129,7 +133,7 @@
                                                                     <div class="card-body">
                                                                         <div class="col-auto">
                                                                             <input type="file" name="typeDetailImage[]" class=" form-control" id="typeDetailImage" accept="image/*" required>
-                                                                            <input type="hidden"name="typeDetailImageUrl[]" value="<?= isset($post['typeDetailImageUrl']) ? $post['typeDetailImageUrl'] : '' ?>" class=" form-control">
+                                                                            <input type="hidden" name="typeDetailImageUrl[]" value="<?= isset($post['typeDetailImageUrl']) ? $post['typeDetailImageUrl'] : '' ?>" class=" form-control">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -172,14 +176,31 @@
             // Get the parent element of the current add button
             var parent = $(this).prev('.inputFields');
 
-            // Clone the last inputField div and append it to the parent
+            // Clone the last inputField div
             var clonedInput = parent.find('.inputField').first().clone();
+
+            // Clear the values in the cloned inputs
+            clonedInput.find('input[type="text"]').val('');
+            clonedInput.find('input[type="file"]').val('');
+            clonedInput.find('img').attr('src', '');
+
+            // Set default value of '0' to the cloned typeDetailID input
+            clonedInput.find('input[name="typeDetailID[]"]').val('0');
+
+            // Change the name attribute of cloned inputs to avoid conflicts
+            clonedInput.find('input[name="typeDetailID[]"]').attr('name', 'typeDetailID[]');
+            clonedInput.find('input[name="productTypeID[]"]').attr('name', 'productTypeID[]');
+            clonedInput.find('input[name="typeDetailTitle[]"]').attr('name', 'typeDetailTitle[]');
+            clonedInput.find('input[name="typeDetailImage[]"]').attr('name', 'typeDetailImage[]');
+            clonedInput.find('input[name="typeDetailImageUrl[]"]').attr('name', 'typeDetailImageUrl[]');
+
+            // Append the cloned input to the parent
             parent.append(clonedInput);
         });
 
         // Delete input field
         $(document).on('click', '.deleteInput', function() {
-            $(this).parent('.inputField').remove();
+            $(this).closest('.inputField').remove();
         });
     });
 </script>

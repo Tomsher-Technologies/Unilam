@@ -36,7 +36,7 @@
                     </div>
                     <div class="row">
                         <?php if (isset($projectsDetails) && !empty($projectsDetails['projectTitle'])) : ?>
-                            <div class="col-lg-2 col-md-4 col-sm-6 col-6">
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-6">
                                 <div class="p-detail-info">
                                     <h6>Project:</h6>
                                     <p><?= $projectsDetails['projectTitle'] ?></p>
@@ -44,7 +44,7 @@
                             </div>
                         <?php endif; ?>
                         <?php if (isset($projectsDetails) && !empty($projectsDetails['projectLocation'])) : ?>
-                            <div class="col-lg-2 col-md-4 col-sm-6 col-6">
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-6">
                                 <div class="p-detail-info">
                                     <h6>Location:</h6>
                                     <p><?= $projectsDetails['projectLocation'] ?></p>
@@ -52,14 +52,14 @@
                             </div>
                         <?php endif; ?>
                         <?php if (isset($projectsDetails) && !empty($projectsDetails['services'])) : ?>
-                            <div class="col-lg-2 col-md-4 col-sm-6 col-6">
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-6">
                                 <div class="p-detail-info">
                                     <h6>Services:</h6>
                                     <p><?= $projectsDetails['services'] ?></p>
                                 </div>
                             </div>
                         <?php endif; ?>
-                        <?php if (isset($projectsDetails) && !empty($projectsDetails['projectType'])) : ?>
+                        <?php /*if (isset($projectsDetails) && !empty($projectsDetails['projectType'])) : ?>
                             <div class="col-lg-2 col-md-4 col-sm-6 col-6">
                                 <div class="p-detail-info">
                                     <h6>Project Type:</h6>
@@ -82,16 +82,16 @@
                                     <p><?= (new DateTime($projectsDetails['projectDate']))->format('F j, Y') ?></p>
                                 </div>
                             </div>
-                        <?php endif; ?>
+                        <?php endif; */?>
                         <div class="space-30"></div>
-                        <?php if (isset($projectsDetails) && !empty($projectsDetails['workDescription'])) : ?>
+                        <?php /*if (isset($projectsDetails) && !empty($projectsDetails['workDescription'])) : ?>
                             <div class="col-lg-12">
                                 <p><span class="drop-cap"><span class="drop-cap-letter">Al</span></span>
                                     <?= $projectsDetails['workDescription'] ?></p>
                                 <div class="space-20"></div>
                                 <div class="space-5"></div>
                             </div>
-                        <?php endif; ?>
+                        <?php endif; */ ?>
                     </div>
                     <div class="row">
                         <div class="col-md-12">

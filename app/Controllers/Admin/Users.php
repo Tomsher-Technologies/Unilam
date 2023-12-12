@@ -48,7 +48,7 @@ class Users extends AdminBaseResourceController
         }
     }
 
-    public function edituser($userID = null)
+    public function edituser($canonicalName = null)
     {
         $session = session();
         $AdminUserTypesModel = new AdminUserTypes_model();
@@ -56,17 +56,18 @@ class Users extends AdminBaseResourceController
         $data = [
             'page_title' => view('partials/page-title', ['title' => 'Edit User', 'li_1' => 'User', 'li_2' => 'Edit User'])
         ];
-        $data['post'] = $this->model->where('userID', $userID)->first();
+        $data['post'] = $this->model->where('canonicalName', $canonicalName)->first();
         $data['userTypes'] = $AdminUserTypesModel->select('')->get()->getResultArray();
 
-        if (($this->request->getMethod() === 'post') && !empty($userID)) {
+        if (($this->request->getMethod() === 'post') && !empty($data['post']['userID'])) {
             if (!empty($data['post'])) {
 
-                $response =  $this->manageuser($userID);
+                $response =  $this->manageuser($data['post']['userID']);
+                
                 if ($response === 'Success') {
                     $session->setFlashdata('successMessage', 'Successfully updated user');
 
-                    if (!empty($userID)) {
+                    if (!empty($data['post']['userID'])) {
 
                         return redirect()->to('../admin/users');
                     } else {
@@ -93,9 +94,14 @@ class Users extends AdminBaseResourceController
         $data['post'] = $_POST;
 
         if ($this->validateInput($userID)) {
+            $canonName = strtolower($this->request->getVar('name'));
+            $canonicalName = str_replace(' ', '-', $canonName); // Replaces all spaces with hyphens.
+            $canonicalName = preg_replace('/[^A-Za-z0-9\-]/', '', $canonicalName); // Removes special chars.
+            $cann = preg_replace('/-+/', '-', $canonicalName);
             if (!empty($userID)) {
 
                 $updateData = [
+                    'canonicalName' => $cann . '-' . $userID,
                     'name' => $this->request->getVar('name'),
                     'phone' => $this->request->getVar('phone'),
                     'email' => $this->request->getVar('email'),
@@ -122,6 +128,9 @@ class Users extends AdminBaseResourceController
 
                 $userID =  $this->model->insertID();
                 if ($userID) {
+
+                    $this->model->update($userID, ['canonicalName' => $cann . '-' . $userID]);
+
                     return 'Success';
                 } else {
                     $data["validation"] = ['msg' => 'Something went wrong!'];

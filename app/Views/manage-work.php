@@ -17,7 +17,7 @@
     <!-- Begin page -->
     <div id="layout-wrapper">
         <?php
-        if (isset($post['workID'])) {
+        if (isset($post['canonicalName'])) {
             echo $this->include('partials/menudoubleback');
         } else {
             echo $this->include('partials/menu');
@@ -37,7 +37,7 @@
 
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
-                                        <li class="breadcrumb-item"><a href="<?= isset($post['workID']) ? '../works-lists' : '../admin/works-lists'; ?>">Works</a></li>
+                                        <li class="breadcrumb-item"><a href="<?= isset($post['canonicalName']) ? '../works-lists' : '../admin/works-lists'; ?>">Works</a></li>
                                         <?php if (isset($li_2)) :  ?>
                                             <li class="breadcrumb-item active"><?= $li_2 ?></li>
                                         <?php endif ?>
@@ -52,7 +52,7 @@
                     <div class="row">
                         <div class="col-xl-12">
                             <div class="card">
-                                <form class="needs-validation p-5 custom-form mt-4 pt-2" method="POST" action="<?= isset($post['workID']) ? base_url("admin/edit-work/{$post['workID']}") : base_url('admin/create-work'); ?>" enctype="multipart/form-data">
+                                <form class="needs-validation p-5 custom-form mt-4 pt-2" method="POST" action="<?= isset($post['canonicalName']) ? base_url("admin/edit-work/{$post['canonicalName']}") : base_url('admin/create-work'); ?>" enctype="multipart/form-data">
                                     <div class="row">
                                         <div class="mb-3 col-md-6 ">
                                             <label class="form-label">Work Title</label>
@@ -142,6 +142,7 @@
                                                 </small>
                                             <?php endif; ?>
                                         </div>
+
                                         <div class="col-md-12">
                                             <div class="card">
                                                 <div class="card-header">
@@ -260,14 +261,9 @@
                                                 </small>
                                             <?php endif; ?>
                                         </div>
-                                        <div class="mb-3 col-md-6 ">
+                                        <div class="col-md-6 mb-3">
                                             <label class="form-label">Show Order</label>
-                                            <input type="number" name="showOrder" class="form-control" id="showOrder" placeholder="Enter twitter link" value="<?= isset($post['showOrder']) ? $post['showOrder'] : ''; ?>">
-                                            <?php if (isset($validation) && isset($validation['showOrder'])) : ?>
-                                                <small class="text-danger">
-                                                    <?= esc($validation['showOrder']) ?>
-                                                </small>
-                                            <?php endif; ?>
+                                            <input type="number" name="showOrder" class="form-control" placeholder="Enter show order" value="<?= isset($post['showOrder']) ? $post['showOrder'] : ''; ?>">
                                         </div>
                                     </div>
 

@@ -94,7 +94,7 @@
                                                             </td>
                                                             <td>
                                                                 <div class="tools">
-                                                                    <a href="edit-service-feature/<?= $featureDetails_row['featureID']; ?>">
+                                                                    <a href="edit-service-feature/<?= $featureDetails_row['canonicalName']; ?>">
                                                                         <i class="mdi mdi-pencil"></i>
                                                                     </a>
                                                                     <a class="deleteButton" href="delete-service-feature/<?= $featureDetails_row['featureID']; ?>">

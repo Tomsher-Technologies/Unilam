@@ -43,24 +43,24 @@ class UserTypes extends AdminBaseResourceController
         }
     }
 
-    public function editusertype($userTypeID = null)
+    public function editusertype($canonicalName = null)
     {
         $session = session();
 
         $data = [
             'page_title' => view('partials/page-title', ['title' => 'Edit User Type', 'li_1' => 'User Type', 'li_2' => 'Edit User Type'])
         ];
-        $data['post'] = $this->model->where('userTypeID', $userTypeID)->where('status', 1)->first();
+        $data['post'] = $this->model->where('canonicalName', $canonicalName)->first();
 
-        if (($this->request->getMethod() === 'post') && !empty($userTypeID)) {
+        if (($this->request->getMethod() === 'post') && !empty($data['post']['userTypeID'])) {
             if (!empty($data['post'])) {
                 if ($data['post']['userType'] !== "Admin") {
 
-                    $response =  $this->manageusertype($userTypeID);
+                    $response =  $this->manageusertype($data['post']['userTypeID']);
                     if ($response === 'Success') {
                         $session->setFlashdata('successMessage', 'Successfully updated user type');
 
-                        if (!empty($userTypeID)) {
+                        if (!empty($data['post']['userTypeID'])) {
 
                             return redirect()->to('../admin/user-types');
                         } else {
@@ -91,9 +91,15 @@ class UserTypes extends AdminBaseResourceController
         $data['post'] = $_POST;
 
         if ($this->validateInput()) {
+            $canonName = strtolower($this->request->getVar('userType'));
+            $canonicalName = str_replace(' ', '-', $canonName); // Replaces all spaces with hyphens.
+            $canonicalName = preg_replace('/[^A-Za-z0-9\-]/', '', $canonicalName); // Removes special chars.
+            $cann = preg_replace('/-+/', '-', $canonicalName);
+
             if (!empty($userTypeID)) {
 
                 $updateData = [
+                    'canonicalName' => $cann . '-' . $userTypeID,
                     'userType' => $this->request->getVar('userType'),
                     'updatedOn' => date('Y-m-d H:i:s'),
                 ];
@@ -113,6 +119,8 @@ class UserTypes extends AdminBaseResourceController
 
                 $userTypeID =  $this->model->insertID();
                 if ($userTypeID) {
+
+                    $this->model->update($userTypeID, ['canonicalName' => $cann . '-' . $userTypeID]);
 
                     return 'Success';
                 } else {
